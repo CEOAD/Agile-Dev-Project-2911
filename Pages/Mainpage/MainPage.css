@@ -1,12 +1,11 @@
-.MainPage__header{
-    text-decoration: none;
-    font-family: 'Poppins', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 48px;
-    line-height: 27px;
-    /* identical to box height */
-    letter-spacing: -0.5px;
-    color: #000000;
-    text-align: center;
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
 }
