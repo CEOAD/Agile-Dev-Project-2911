@@ -8,4 +8,28 @@ body, html {
 #map {
     height: 100%;
     width: 100%;
+    position: absolute;
+    z-index: 0;
+}
+
+.custom-marker {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    background-color: aqua;
+}
+
+.wi {
+    margin-left: 70px;
+    width: 40px;
+    height: 40px;
+    font-size: 2em;
+    z-index: 1;
+    position: relative;
 }
