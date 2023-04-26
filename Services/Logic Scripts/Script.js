@@ -8,14 +8,25 @@ const map = new mapboxgl.Map({
     zoom: 3
 });
 
-// Add a draggable marker to the map
-const marker = new mapboxgl.Marker({
-    draggable: true
-}).setLngLat([0, 0]).addTo(map);
+// Create an empty custom marker element
+const emptyMarkerElement = document.createElement('div');
+emptyMarkerElement.className = 'custom-marker';
+
+// Add a draggable marker to the map with the custom marker element
+let marker = createMarker(0, 0, emptyMarkerElement);
+
+function createMarker(lat, lng, markerElement) {
+    const newMarker = new mapboxgl.Marker({
+        element: markerElement,
+        draggable: true
+    }).setLngLat([lng, lat]).addTo(map);
+
+    newMarker.on('dragend', handleMarkerUpdate);
+    return newMarker;
+}
 
 // Function to fetch weather data
 async function fetchWeatherData(lat, lng) {
-
     const weatherApiKey = '3f171dd2f33fcfa66e7d8971457c3922';
     const weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${weatherApiKey}`;
 
@@ -23,14 +34,33 @@ async function fetchWeatherData(lat, lng) {
         const response = await axios.get(weatherApiUrl);
         const data = response.data;
         console.log(data);
-    } catch (error) {
+
+        // Get the weather condition code
+        const weatherConditionCode = data.weather[0].id;
+
+        // Create a custom marker element
+        const newMarkerElement = document.createElement('div');
+        newMarkerElement.className = 'custom-marker';
+
+        // Add the weather icon to the marker element
+        const weatherIcon = document.createElement('i');
+        weatherIcon.className = `wi wi-owm-${weatherConditionCode}`;
+        newMarkerElement.appendChild(weatherIcon);
+
+        // Add a default marker background
+        const markerBackground = document.createElement('div');
+        markerBackground.className = 'marker-background';
+        newMarkerElement.appendChild(markerBackground);
+
+        // Replace the existing marker with a new one
+        marker.remove();
+        marker = createMarker(lat, lng, newMarkerElement); } catch (error) {
         console.error('Error fetching weather data:', error);
     }
 }
 
 // Function to fetch nearby cities
 async function fetchNearbyCities(lat, lng) {
-
     const geocodingApiKey = '5b7242a7d48646f99f7fa9c017a49b48';
     const geocodingApiUrl = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${geocodingApiKey}`;
 
