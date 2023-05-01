@@ -65,29 +65,33 @@ main {
   padding-right: 10%;
 }
 
-.main {
+.main { /* page spacing for the main content */
 
   display: grid;
   grid-template-columns: 60% 40%;
 }
-/* Main content in grid for page spacing */
 
 .about {
   grid-row: 1/2;
 }
+
 .purpose {
   grid-row: 2/3;
 }
+
 .team {
   grid-row: 3/4;
 }
-.cloudIMG {
+
+.cloudIMG { /* image wrapper */
   grid-column: 2/3;
   grid-row:1/4;
 }
-.clouds {
+
+.clouds { /* image element */
   padding-top:20%;
   padding-left:20%;
   height:80%;
   width:80%;
 }
+
