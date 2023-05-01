@@ -1,3 +1,8 @@
+html, body {
+  margin:0; /* to make the header fit the screen without whitespace */
+  padding:0;
+}
+
 .wrapper{
   max-width: none;
 }
@@ -22,6 +27,7 @@
   top: 72px;
   left: 0;
   padding: 0;
+  margin-top: 10px; /* to get rid of white line space between header and nav */
   width: Max(220px, 20%);
   bottom: 0;
   z-index: 1;
