@@ -95,3 +95,28 @@ main {
   width:80%;
 }
 
+.site-footer {
+  position: fixed;
+  background-color: #def7ff;
+  bottom: 0;
+  width: 100%;
+}
+
+.site-footer__wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem; 
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+.contact-wrapper {
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.contact {
+  list-style-type:none;
+}
