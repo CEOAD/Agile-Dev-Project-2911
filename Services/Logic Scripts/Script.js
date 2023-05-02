@@ -138,11 +138,16 @@ async function fetchWeatherData(lat, lng) {
         const data = response.data;
         console.log(data);
 
+        if (!data || !data.weather || data.weather.length === 0) {
+            throw new Error('Invalid weather data received');
+        }
+
         return data; // Return the entire data object
     } catch (error) {
         console.error('Error fetching weather data:', error);
     }
 }
+
 
 async function fetchNearbyCities(lat, lng) {
     const location = new google.maps.LatLng(lat, lng);
@@ -150,7 +155,7 @@ async function fetchNearbyCities(lat, lng) {
 
     const request = {
         location: location,
-        radius: 75000, // Search within a radius of 100 km
+        radius: 100000, // Search within a radius of 100 km
         query: "city",
     };
 
@@ -202,16 +207,45 @@ async function handleMarkerUpdate(markerElement) {
     const coordinates = marker.getPosition();
 
     const mainWeatherData = await fetchWeatherData(coordinates.lat(), coordinates.lng());
+    if (!mainWeatherData) {
+        console.error('Unable to fetch main weather data');
+        return;
+    }
+
+    const cityName = mainWeatherData.name;
+    const country = mainWeatherData.sys.country;
+    const temperature = mainWeatherData.main.temp;
+    const weatherDescription = mainWeatherData.weather[0].description;
+
+    // For the main city weather data
+    // Create a new card element with the structure you want
+    const mainCardElement = createWeatherCard(mainWeatherData);
+    markerElement.appendChild(mainCardElement);
+
     clearPreviousCityCards();
     const locationName = mainWeatherData.name;
     const windSpeed = mainWeatherData.wind.speed;
-
+    const mainHumidity = mainWeatherData.main.humidity;
+    const mainAqi = mainWeatherData.visibility;
+    const mainPressure = mainWeatherData.pressure;
+    const mainRealFeel = mainWeatherData.main.feels_like;
     const mainWeatherIconCode = mainWeatherData.weather[0].icon;
     markerElement.innerHTML = "";
     const mainWeatherIcon = document.createElement("img");
     mainWeatherIcon.src = getWeatherIconURL(mainWeatherIconCode);
     mainWeatherIcon.className = "weather-icon";
     markerElement.appendChild(mainWeatherIcon);
+
+    const upper = document.createElement('div')
+    const humidity = document.createElement('div')
+    const pressure = document.createElement('div')
+    const humidityicon = document.createElement('div')
+    const humiditytext = document.createElement('div')
+    const pressureicon = document.createElement('div')
+    const pressuretext = document.createElement('div')
+    pressuretext.textContent = `Pressure`
+    const pressurecontent = document.createElement('div')
+    // pressurecontent.textContent`${}`
 
     const mainTemperature = mainWeatherData.main.temp;
     const temperatureElement = document.createElement("div");
@@ -240,52 +274,95 @@ async function handleMarkerUpdate(markerElement) {
     window.nearbyCityMarkers = [];
 
     // Fetch the weather data for each nearby city and create a custom marker
-    console.log(nearbyCities)
     for (const city of nearbyCities) {
         const cityWeatherData = await fetchWeatherData(city.latitude, city.longitude);
 
-        // Get the weather icon code
-        const weatherIconCode = cityWeatherData.weather[0].icon;
-
-        // Create a custom marker element
-        const newMarkerElement = document.createElement("div");
-        newMarkerElement.className = "card";
-
-        // Add the weather icon to the marker element
-        const weatherIcon = document.createElement("img");
-        weatherIcon.src = getWeatherIconURL(weatherIconCode);
-        weatherIcon.className = "weather-icon";
-        newMarkerElement.appendChild(weatherIcon);
-
-        // Add the location name to the marker element
-        const locationNameElementContainer = document.createElement("div");
-        locationNameElementContainer.className = "location-name-container";
-        const locationNameElement = document.createElement("div");
-        locationNameElement.className = "location-name";
-        locationNameElement.textContent = city.name;
-        locationNameElementContainer.appendChild(locationNameElement);
-        newMarkerElement.appendChild(locationNameElementContainer);
-
-
-        // Add the temperature to the marker element
-        const temperature = cityWeatherData.main.temp;
-        const cityTemperatureElement = document.createElement("div");
-        cityTemperatureElement.className = "temperature";
-        cityTemperatureElement.textContent = `${temperature}°C`;
-        newMarkerElement.appendChild(cityTemperatureElement);
-
-        // Add the wind speed to the marker element
-        const windSpeedElement = document.createElement("div");
-        windSpeedElement.className = "wind-speed";
-        windSpeedElement.textContent = `Wind: ${cityWeatherData.wind.speed} m/s`;
-        newMarkerElement.appendChild(windSpeedElement);
+        // Create a new card element with the structure you want
+        const newCardElement = createWeatherCard(cityWeatherData);
 
         // Create a new marker for the nearby city and add it to the map
-        const cityMarker = createMarker(city.latitude, city.longitude, newMarkerElement);
+        const cityMarker = createMarker(city.latitude, city.longitude, newCardElement);
 
         // Add the new city marker to the nearbyCityMarkers array
         window.nearbyCityMarkers.push(cityMarker);
     }
+}
+function createWeatherCard(weatherData) {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const cityName = weatherData.name;
+    const country = weatherData.sys.country;
+    const temperature = weatherData.main.temp;
+    const weatherDescription = weatherData.weather[0].description;
+    const windSpeed = weatherData.wind.speed;
+    const mainHumidity = weatherData.main.humidity;
+    const mainAqi = weatherData.visibility;
+    const mainPressure = weatherData.pressure;
+    const mainRealFeel = weatherData.main.feels_like;
+    const mainWeatherIconCode = weatherData.weather[0].icon;
+
+    const weatherIcon = document.createElement("img");
+    weatherIcon.src = getWeatherIconURL(mainWeatherIconCode);
+    weatherIcon.className = "weather-icon";
+    card.appendChild(weatherIcon);
+
+    const cardm = document.createElement('div')
+    cardm.className = "cardm";
+
+    const card2 = document.createElement('div')
+    card2.className = "card2";
+
+    const cityAndCountry = document.createElement("div");
+    cityAndCountry.className = "mainsub";
+    cityAndCountry.textContent = `${cityName}, ${country}`;
+    card.appendChild(cityAndCountry);
+
+    const tempAndDescription = document.createElement("div");
+    tempAndDescription.className = "main";
+    tempAndDescription.textContent = `${temperature}°C, ${weatherDescription}`;
+    card.appendChild(tempAndDescription);
+
+    const upper = document.createElement('div')
+    upper.className = "upper"
+
+    const wind = document.createElement("div");
+    wind.className = "wind";
+    wind.textContent = `Wind: ${windSpeed} m/s`;
+    upper.appendChild(wind);
+
+    const humidity = document.createElement("div");
+    humidity.className = "humidity";
+    humidity.textContent = `Humidity: ${mainHumidity}%`;
+    upper.appendChild(humidity);
+    card2.appendChild(upper)
+
+    const lower = document.createElement('div')
+    lower.className = "lower"
+
+    const aqi = document.createElement("div");
+    aqi.className = "aqi";
+    aqi.textContent = `AQI: ${mainAqi}`;
+    lower.appendChild(aqi);
+
+    const pressure = document.createElement("div");
+    pressure.className = "pressure";
+    pressure.textContent = `Pressure: ${mainPressure} hPa`;
+    lower.appendChild(pressure);
+
+    const realFeel = document.createElement("div");
+    realFeel.className = "real-feel";
+    realFeel.textContent = `Real feel: ${mainRealFeel}°C`;
+    lower.appendChild(realFeel);
+
+    const card3 = document.createElement('div')
+    card3.className = "card3"
+
+    card2.appendChild(lower)
+
+    cardm.appendChild(card)
+    cardm.appendChild(card2)
+    return cardm;
 }
 
 window.initMap = initMap;

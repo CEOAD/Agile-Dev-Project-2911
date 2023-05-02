@@ -47,21 +47,10 @@ body, html {
     font-weight: bold;
     text-align: center;
     position: absolute;
+    text-wrap: normal;
     left: 65%;
     transform: translateX(-50%);
     white-space: nowrap;
-}
-
-.wind-speed {
-    font-size: 10px;
-    text-align: center;
-    position: absolute;
-    bottom: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-    visibility: hidden; /* Added */
-    opacity: 0; /* Added */
 }
 .cardm {
     position: absolute;
@@ -70,6 +59,7 @@ body, html {
     justify-content: center;
     top: 46.64%;
     left: 50%;
+    z-index: 5;
 }
 
 .card {
@@ -110,7 +100,7 @@ body, html {
     height: 130px;
     border-radius: 35px;
     background: white;
-    z-index: -1;
+    z-index: 1;
     transition: .4s ease-in-out;
 }
 
@@ -139,14 +129,14 @@ body, html {
     gap: 4em;
 }
 
-.humiditytext {
+.humidity {
     position: relative;
     left: 3.6em;
     top: 2.7em;
     font-size: 0.6em;
 }
 
-.airtext {
+.wind {
     position: relative;
     left: 3.8em;
     top: 2.7em;
@@ -170,7 +160,7 @@ body, html {
     margin-right: 3.25em;
 }
 
-.realfeel {
+.real-feel {
     margin-right: 1.8em;
 }
 
@@ -189,38 +179,4 @@ body, html {
     border-bottom-right-radius: 35px;
     background: limegreen;
     transition: .4s ease-in-out;
-    z-index: 1;
-}
-
-.card:hover .wind-speed {
-    visibility: visible;
-    opacity: 1;
-    transition: opacity 0.4s;
-    z-index: 1;
-}
-
-.card:hover .location-name {
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.4s;
-    z-index: 1;
-}
-.marker-card:hover .wind-speed {
-    visibility: visible;
-    opacity: 1;
-    transition: opacity 0.4s;
-    z-index: 1;
-}
-
-.marker-card:hover .location-name {
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.4s;
-    z-index: 1;
-}
-.temperature {
-    position: relative;
-    top:-75%;
-    font-size: 2.5em;
-    left: 47%;
 }
