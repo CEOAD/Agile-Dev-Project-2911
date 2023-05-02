@@ -6,6 +6,7 @@
 .wrapper{
   max-width: none;
 }
+
 .brand {
   font-weight: bold;
   padding-left: 1%;
@@ -53,4 +54,3 @@
 .nav__wrapper {
   margin-right: 0;
 }
-

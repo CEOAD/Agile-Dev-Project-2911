@@ -4,12 +4,12 @@
     <meta charset="UTF-8" />
     <title>myWeather</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="/Agile-Dev-Project-2911/Pages/homepage/reset.min.css" />
-    <link rel="stylesheet" href="/Agile-Dev-Project-2911/Pages/homepage/style.css" />
-    <link rel="stylesheet" href="/Agile-Dev-Project-2911/Pages/homepage/homepage.css" />
-    <link rel="stylesheet" type="text/css" href="/googleMaps/GMAPSstyle.css" />
+    <link rel="stylesheet" href="reset.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="homepage.css" />
+    <link rel="stylesheet" type="text/css" href="../../../googleMaps/GMAPSstyle.css ">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9rxwMerAX5RuT8MaDEJ1fKwAJNtCC_bI"></script>
-    <script src="/googleMaps/index.js"></script>
+    <script src="../../../googleMaps/index.js"></script>
   </head>
   <body>
     <!-- Header Start -->
@@ -58,6 +58,20 @@
               </div>
           </div>
       </div>
+      <!-- Favourites Button-->
+        <div>
+          <div class="dropdown">
+            <button class="favs">Favourites</button>
+            <div class="dropdown-content">
+              <ul id="chosen">
+                <li>Vancouver</li>
+                <li>Burnaby</li>
+                <li>Chilliwack</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      <!-- Sign In Button-->
         <a href="#" class="button button--icon" aria-label="Sign in">
           <svg
             version="1.1"
@@ -73,14 +87,13 @@
               />
             </g>
           </svg>
-
+  
           <button class="nav__toggle"> Sign in</button>
         </a>
       </div>
     </header>
     <!-- Header End -->
-
-    <script src="/Agile-Dev-Project-2911/Pages/homepage/homepage.js"></script>
+    <script src="homepage.js"></script>
     <div id="map"></div>
 
     <!-- prettier-ignore -->
