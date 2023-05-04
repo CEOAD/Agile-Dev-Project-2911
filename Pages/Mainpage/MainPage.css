@@ -59,8 +59,9 @@ body, html {
     justify-content: center;
     top: 46.64%;
     left: 50%;
-    z-index: 5;
+
 }
+
 
 .card {
     position: absolute;
@@ -69,9 +70,11 @@ body, html {
     border-radius: 25px;
     background: whitesmoke;
     color: black;
-    z-index: 2;
+    z-index: 3;
     transition: .4s ease-in-out;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
 }
+
 
 .weather {
     position: relative;
@@ -81,15 +84,16 @@ body, html {
 .main {
     font-size: 2em;
     position: relative;
-    top: -3em;
-    left: 4.3em;
+    top: -4.5em;
+    left: 5em;
 }
 
 .mainsub {
     position: relative;
-    top: -10.2em;
-    left: 14em;
-    font-size: 0.6em;
+    top: -5em;
+    left: 10em;
+    font-size: 1em;
+    flex-wrap: wrap;
 }
 
 .card2 {
@@ -100,64 +104,45 @@ body, html {
     height: 130px;
     border-radius: 35px;
     background: white;
-    z-index: 1;
+    z-index: 2;
     transition: .4s ease-in-out;
 }
 
-.card:hover {
-    background-color: #FFE87C;
+.cardm:hover .card {
+    background-color: #FFE87C !important;
     cursor: pointer;
 }
 
-.card:hover + .card2 {
+.cardm:hover .card2 {
     height: 300px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
 }
 
-.card:hover + .card2 .lower {
+
+.cardm:hover .card2 .lower {
     top: 20.2em;
 }
+
 
 .upper {
     display: flex;
     flex-direction: row;
     position: relative;
     color: black;
-    left: 1.8em;
-    top: 0.5em;
+    top: -3.5em;
+    border-radius: 20px;
     gap: 4em;
+    width: 100%;
+    background-color: aliceblue;
 }
-
-.humidity {
-    position: relative;
-    left: 3.6em;
-    top: 2.7em;
-    font-size: 0.6em;
-}
-
-.wind {
-    position: relative;
-    left: 3.8em;
-    top: 2.7em;
-    font-size: 0.6em;
-}
-
-.lower {
-    display: flex;
-    flex-direction: row;
-    position: absolute;
-    text-align: center;
-    color: black;
-    left: 3em;
-    top: 1em;
-    margin-top: 0.7em;
-    font-size: 0.7em;
-    transition: .4s ease-in-out;
+.card:hover {
+    background-color: #FFE87C;
+    cursor: pointer;
 }
 
 .aqi {
-    margin-right: 3.25em;
+    margin-right: 1.8em;
 }
 
 .real-feel {
@@ -179,4 +164,57 @@ body, html {
     border-bottom-right-radius: 35px;
     background: limegreen;
     transition: .4s ease-in-out;
+    z-index: 3;
+}
+
+
+.lower {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    text-align: center;
+    color: black;
+    left: 3em;
+    top: 1em;
+    margin-top: 0.7em;
+    font-size: 0.7em;
+    transition: .4s ease-in-out;
+}
+.pressure{
+    position: relative;
+    top: 55%;
+}
+.real-feel{
+    margin-right: 1.8em;
+}
+.aqi{
+    top: 55%;
+    left: 10px;
+    position: relative;
+}
+.humidity {
+    position: relative;
+    left: 6em;
+    height: 50px;
+    width: 50px;
+    top: -2.4em;
+    font-size: 1em;
+}
+.wind {
+    position: relative;
+    left: 6.3em;
+    width: 50px;
+    top: 0.5em;
+    font-size: 1em;
+}
+.wind_svg{
+    position: relative;
+    top: -2em;
+    left: 3em;
+
+}
+.humidity_svg{
+    position: relative;
+    top: 0.4em;
+    left: 3em;
 }
