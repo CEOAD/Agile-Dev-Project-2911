@@ -107,6 +107,11 @@ main {
   list-style-type:none;
 }
 
+.profile {
+  width: 70%;
+  height: 70%;
+}
+
 /* universe.io card */
 .card {
   box-sizing: border-box;
