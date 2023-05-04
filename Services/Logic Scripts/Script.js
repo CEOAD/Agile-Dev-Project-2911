@@ -13,6 +13,24 @@ async function initMap() {
     const cardElement = createWeatherCard(mainWeatherData);
     marker = createMarker(0, 0, cardElement, true);
 
+    const lowerElement = document.querySelector(".lower");
+    const upperElement = document.querySelector(".upper");
+
+    // Show the lower and upper elements when the marker is hovered over.
+    google.maps.event.addListener(map, "mouseover", (event) => {
+        if (event.placeId) {
+            lowerElement.style.visibility = "visible";
+            upperElement.style.visibility = "visible";
+            event.stop();
+        }
+    });
+
+    // Hide the lower and upper elements when the mouse leaves the marker.
+    google.maps.event.addListener(map, "mouseout", (event) => {
+        lowerElement.style.visibility = "hidden";
+        upperElement.style.visibility = "hidden";
+    });
+    // Show the lower element when the marker is hovered over.
     marker.addListener("dragend", () => handleMarkerUpdate(cardElement));
     map.addListener("click", (event) => {
         const coordinates = event.latLng;
@@ -267,7 +285,7 @@ async function handleMarkerUpdate(markerElement) {
 function createWeatherCard(weatherData) {
     const card = document.createElement("div");
     card.className = "card";
-
+    card.style.zIndex = 999999;
     const cityName = weatherData.name;
     const country = weatherData.sys.country;
     const temperature = weatherData.main.temp;
@@ -376,19 +394,95 @@ function createWeatherCard(weatherData) {
     lower.className = "lower"
 
     const aqi = document.createElement("div");
+    const aqicont = document.createElement("div");
+    const aqisvg = `<svg class="aqisvg" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20px" height="20px" viewBox="0 0 20 20" xml:space="preserve">  <image id="image0" width="20" height="20" x="0" y="0" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdBTUEAALGPC/xhBQAAACBjSFJN
+          AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABBVBMVEUAAABL4f9O5v9P5f9Q
+          5f9R5/8AZsxB0vYAd9EAeNQAd9MeoOM1w/EYmuIZm+IXnOIAAP8AccYmrOgYmuAWneEA//8AdtQZ
+          m+JP5f8ZmeUAf89L3vwcoOQYmeIAddEAeNUrseocjeIAd9QAeNMxu+4kqucZmuEYm+IWmeI5xfIf
+          n99P3/9Q5v9Q5v9Q5v9G2Pk0wPA+zfZN4v5L3/w+zfUyve8iqOcrs+s9zPVM4f1N4v1E1vklrOki
+          p+cmrOhH2fpP5f5F1/kstewqs+tO4/4nruott+0or+pL3vxE1flK3vxA0fcjqecrtOxO5P4yvvAs
+          tOw6yPNA0Pc7yfQ4xfI3xPL////cI4U2AAAALnRSTlMAEXF3ZWsFeC3S26iVh7MsAQnAVCIBZ7Ft
+          ChBv6GonVZQJs4yLxtPNLY8IEHuINVg0ZAAAAAFiS0dEVgoN6YkAAAAJcEhZcwAACxMAAAsTAQCa
+          nBgAAAAHdElNRQfnAhIFCRn0J5yMAAAAq0lEQVQY02NgIAkwMjFDARMjXJBFDw5Y4IKsCEFWmBgb
+          u56+gaERsiAHJxe3nrGJqZm5haWeFQ8vHz9QUEAQqt3a1MbWTkhYRBRmprG9A5qZYuJ6jk62ziYu
+          QEEJSaiglDRIjaOpraubu4wsupM8PL2g2gXk5BX0vH18LYwgZiqCLOJQUlbR0/Nz9LcNCAwKVlVT
+          10DRbh1iGqqphc+b2ANEW0cXCnS0SQt0ALCcIug70CWhAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIz
+          LTAyLTE4VDA1OjA5OjI1KzAwOjAwRMIpTAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMy0wMi0xOFQw
+          NTowOToyNSswMDowMDWfkfAAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjMtMDItMThUMDU6MDk6
+          MjUrMDA6MDBiirAvAAAAAElFTkSuQmCC"></image>
+        </svg>`;
+    const parserAqi = new DOMParser();
+    const svgDocAqi = parserAqi.parseFromString(aqisvg, "image/svg+xml");
+    const svgElementAqi = svgDocAqi.querySelector("svg");
+    aqicont.className = "aqicont";
     aqi.className = "aqi";
     aqi.textContent = `AQI: ${mainAqi}`;
-    lower.appendChild(aqi);
+    aqicont.appendChild(svgElementAqi);
+    aqicont.appendChild(aqi)
+    lower.appendChild(aqicont);
 
     const pressure = document.createElement("div");
+    const pressuresvg = `<svg class="pressuresvg" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20px" height="20px" viewBox="0 0 20 20" xml:space="preserve">  <image id="image0" width="20" height="20" x="0" y="0" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdBTUEAALGPC/xhBQAAACBjSFJN
+          AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABNVBMVEUAAAAAr8EArMAAqsAA
+          rMEBrMEBrMAAq8AArb8AqsIBrMEgtMa53+S53+QetMYArMEArMEAqrsArMA9scFegp4Cqr8Ao8gA
+          rMEErMHn6+wTobgArMAArMBCvc1sco8Aq8EArMFSqrmNWn1Dvs4Aq8EErcLo7O0SorgArMAAq8A8
+          sMBie5gCqr8BrMEftMa23eO33uQcs8YAq8AArMAAq8ABq8AAq8EAq8Mtdn9DW2OvvcSwvcSrucJ3
+          kZyvvcWvv8OruMJ6kZ55kJ2rusAArMHFzdLH0NS5xMru7u7l5+jm6Ojp3eDd4OK2ubvAhZL4G0en
+          rK1YYWV3foHu7e39Mlns7OwzXWQxW2Tl5+f6VHSssLKpra/9MVnc4OL1m6y5xcvv09kxcX5FWmR4
+          kJywvsWsusL///80ikJBAAAARHRSTlMAHUotv/j5vSw/9cvd3MrzPg/q4+rqDnXk+/NzucP3t873
+          /cJ05Przcunj8en0y93cyz28/vu7K1RASpWb/YBAhvP3hpKCbb4AAAABYktHRGYs1NklAAAACXBI
+          WXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5wISBRAIBZcVZgAAAM1JREFUGNNjYMAHGJmYGNGEmFlc
+          WNlc2DmQxTi5uHlc3Xj5+AUQYoJCwu4enl4e3iKiYnBBcQlJHw8PD18/fylpuKCMLFAoIDAoOERO
+          Hi6ooOjuERoWHuERqaSAUKkMVBkV7REcg6RSRVUtFijsEeevroGwXVMrHiSYoK2DsJ1BQFdP38PD
+          wJDfCNn1HMYmpqYmZuZoHrVITLTACBDLpCRLJK6VNRDY2CYn29qAWFZgQbsUIEhNBoJUEMsOLGhv
+          BwQOjk5Ojs4glj0DCQAAJCUofMKIT9cAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMDItMThUMDU6
+          MTY6MDgrMDA6MDBXtcu8AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTAyLTE4VDA1OjE2OjA4KzAw
+          OjAwJuhzAAAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyMy0wMi0xOFQwNToxNjowOCswMDowMHH9
+          Ut8AAAAASUVORK5CYII="></image>
+        </svg>`;
+    const parserPressure = new DOMParser();
+    const svgDocPressure = parserPressure.parseFromString(pressuresvg, "image/svg+xml");
+    const svgElementPressure = svgDocPressure.querySelector("svg");
+    const pressurecont = document.createElement("div");
+    pressurecont.className = "pressurecont";
+    pressurecont.appendChild(svgElementPressure);
     pressure.className = "pressure";
     pressure.textContent = `Pressure: ${mainPressure} hPa`;
-    lower.appendChild(pressure);
+    pressurecont.appendChild(pressure);
+    lower.appendChild(pressurecont);
 
     const realFeel = document.createElement("div");
+    const realsvg = `<svg class="rfsvg" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20px" height="20px" viewBox="0 0 20 20" xml:space="preserve">  <image id="image0" width="20" height="20" x="0" y="0" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdBTUEAALGPC/xhBQAAACBjSFJN
+          AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABuVBMVEUAAAAAAAAECQkIDg4E
+          BAQAAAAAAAAFBQUHDAwIDg4MFBUNFRUKCgoPGhxGenw/b3FDdXcmRUYJDAwJDw9Pi40LFBQNFhYM
+          FhYPGhsMExUKEhIPGhoKEhQMExMOGhoMExMPGhoKFBQLExMNFxcKEhILFBQKExMKExQLEhILERMK
+          EREHDQ1SkJMuUlMABAQAAAASHh9FeXtAcXI8aWszWlwvU1M4Y2QjPT4NGBoAAAAAAAAAAAAAAAAA
+          AAAAAAAAAAAAAABYmZtWlplKgoVlsbRsvsF0zM9uwsVuwcNsvb9ecU53czF0bStgbkdqt7dntbhp
+          tbVxaCf5uxD+vxD7vBBTUilYlZdtwMNms7Zdc1P8vRDYpBR5b0imsKy0wcFzhoZdkpRldEx6cU3W
+          5eWLnJxdm51otrlZdl67kBWxvbmUo6RmfHxajo9ouLpqt7mJdiN8YxnH1dWVpaVfn6Jgl41OUUKv
+          u7pWe3xwxsldn6KmtLTO3NxUf4BswMN0ys1gpaedrKzT4uJjd3dsvcBqubxXg4Vgd3hthYVid3dh
+          dnZof39shYVkf4BVeXpqt7pksbJjr7Jdo6X////f0mPcAAAAQXRSTlMABGh/a1xUZIqPo7BH2vv4
+          /vJQgvyxwLLCpqXBsafBqcKutcCwuamtop+SgPzwOQzg/f728fD166Zla1o/PiEmFs+XjUIAAAAB
+          YktHRJKWBO8gAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5wISBQ8aO3RqsAAAAQlJREFU
+          GNNjYMAOGJmYmVlY2djYmZk5OLm4ecBivHyOTs7O/ALOTo6Oji6ugkJAQWERNxTgLgoUFEMVc/MQ
+          BwpKuLl5enn7+PpBBf0lwYIBgUHBwSGhYeFgwQgpoKC0W2RUcHB0TGxcfAJYuwxYMDE4OCgpGQhS
+          UoGCabJAQTm39KDgjEyQYHJWdo5brjxQUMEtLz+ooDAZAoqKXRXBgm4lpWXJMFBeoQQUVHZzq6yC
+          i1XX1KoABVXr3OobYGKNTc0takBBdVc3t9a29vaOzq7unt4+t34NoKDmBFRvTtQCCmrroArq6gEF
+          9Q0MnY2MTUxNzYxBwNwCHMj6llbWNrZ29jZg4IAjKhgAAWdbVO4nzP4AAAAldEVYdGRhdGU6Y3Jl
+          YXRlADIwMjMtMDItMThUMDU6MTU6MjYrMDA6MDCumAyfAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIz
+          LTAyLTE4VDA1OjE1OjI2KzAwOjAw38W0IwAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyMy0wMi0x
+          OFQwNToxNToyNiswMDowMIjQlfwAAAAASUVORK5CYII="></image>
+        </svg>`;
+    const parserRealFeel = new DOMParser();
+    const svgDocRealFeel = parserRealFeel.parseFromString(realsvg, "image/svg+xml");
+    const svgElementRealFeel = svgDocRealFeel.querySelector("svg");
+    const realFeelcont = document.createElement("div");
+    realFeelcont.className = "realFeelcont";
+    realFeelcont.appendChild(svgElementRealFeel);
     realFeel.className = "real-feel";
     realFeel.textContent = `Real feel: ${mainRealFeel}°C`;
-    lower.appendChild(realFeel);
+    realFeelcont.appendChild(realFeel);
+    lower.appendChild(realFeelcont);
 
     const card3 = document.createElement('div')
     card3.className = "card3"
@@ -400,7 +494,10 @@ function createWeatherCard(weatherData) {
     return cardm;
 }
 
-window.initMap = initMap;
+document.addEventListener("DOMContentLoaded", () => {
+    window.initMap = initMap;
+});
+
 
 function getWeatherIconURL(iconCode) {
     return `http://openweathermap.org/img/w/${iconCode}.png`;
