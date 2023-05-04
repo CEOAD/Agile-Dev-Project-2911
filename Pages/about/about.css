@@ -1,6 +1,8 @@
 html, body {
   margin:0; /* to make the header fit the screen without whitespace */
   padding:0;
+  background-image: url("../../img/background.png");
+  background-color: #cccccc;
 }
 
 .wrapper{
@@ -66,21 +68,30 @@ main {
 }
 
 .main { /* page spacing for the main content */
-
+  
   display: grid;
   grid-template-columns: 60% 40%;
+  margin-top: 15px;
 }
 
 .about {
   grid-row: 1/2;
+  grid-column: 1/-1;
 }
 
 .purpose {
   grid-row: 2/3;
+  grid-column: 1/-1;
 }
 
 .team {
   grid-row: 3/4;
+  grid-column: 1/-1;
+}
+
+.people {
+  list-style-type: none;
+  padding: 0;
 }
 
 .cloudIMG { /* image wrapper */
@@ -119,4 +130,17 @@ main {
 
 .contact {
   list-style-type:none;
+}
+
+/* universe.io card */
+.card {
+  box-sizing: border-box;
+  background: rgba(217, 217, 217, 0.58);
+  border: 1px solid white;
+  box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(6px);
+  border-radius: 17px;
+  text-align: center;
+  font-weight: bolder;
+  color: black;
 }
