@@ -68,10 +68,8 @@ main {
 }
 
 .main { /* page spacing for the main content */
-  
   display: flex;
   flex-direction: column;
-  margin-top: 15px;
 }
 
 .people {
@@ -114,6 +112,7 @@ main {
 
 /* universe.io card */
 .card {
+  margin-top: 20px;
   box-sizing: border-box;
   background: rgba(217, 217, 217, 0.58);
   border: 1px solid white;
