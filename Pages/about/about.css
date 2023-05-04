@@ -77,10 +77,12 @@ main {
 .people {
   list-style-type: none;
   padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .site-footer {
-  position: fixed;
+  position: relative;
   background-color: #def7ff;
   bottom: 0;
   width: 100%;
