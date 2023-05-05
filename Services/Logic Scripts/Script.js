@@ -57,3 +57,4 @@ map.on('click', (event) => {
     marker.setLngLat(coordinates);
     handleMarkerUpdate();
 });
+// Path: Services\Logic Scripts\Script.js
