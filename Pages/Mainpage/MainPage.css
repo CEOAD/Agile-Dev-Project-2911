@@ -8,4 +8,253 @@ body, html {
 #map {
     height: 100%;
     width: 100%;
+    position: absolute;
+    z-index: 0;
+}
+
+.custom-marker {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    background-color: aqua;
+}
+
+.wi {
+    margin-left: 100px;
+    width: 40px;
+    height: 40px;
+    font-size: 2em;
+    z-index: 2;
+    position: relative;
+}
+
+.weather-icon {
+    width: 120px;
+    height: 120px;
+    margin-top: 10px;
+    margin-left: -10px;
+}
+
+.location-name {
+    top: 55%;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    position: absolute;
+    text-wrap: normal;
+    left: 65%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+.cardm {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 46.64%;
+    left: 50%;
+
+}
+
+
+.card {
+    position: fixed;
+    width: 250px;
+    height: 130px;
+    border-radius: 25px;
+    background: whitesmoke;
+    color: black;
+    z-index: 1000;
+    transition: .4s ease-in-out;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+
+.weather {
+    position: relative;
+    margin: 1em;
+}
+
+.main {
+    font-size: 2em;
+    position: relative;
+    top: -4.5em;
+    left: 5em;
+}
+
+.mainsub {
+    position: relative;
+    top: -5em;
+    left: 10em;
+    font-size: 1em;
+    flex-wrap: wrap;
+}
+
+.card2 {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    width: 240px;
+    height: 130px;
+    border-radius: 35px;
+    background: white;
+    z-index: 2;
+    transition: .4s ease-in-out;
+}
+
+.cardm:hover .card {
+    background-color: #FFE87C !important;
+    cursor: pointer;
+}
+
+.cardm:hover .card2 {
+    height: 300px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+
+.cardm:hover .card2 .lower {
+    top: 20.2em;
+}
+
+
+.upper {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    color: black;
+    top: -6.5em;
+    border-radius: 20px;
+    gap: 4em;
+    width: 100%;
+    background-color: aliceblue;
+    /*visibility: hidden;*/
+}
+.card:hover {
+    background-color: #FFE87C;
+    cursor: pointer;
+}
+
+.aqi {
+    margin-right: 1.8em;
+}
+
+.real-feel {
+    position: relative;
+    font-size: 1.5em;
+    top: 6em;
+    left: 3.6em;
+    width: 50%;
+}
+.rfsvg{
+    position: relative;
+    top: 9em;
+    left: 1.6em;
+}
+.card3 {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 240px;
+    height: 30px;
+    top: 4.7em;
+    left: -2.4em;
+    font-size: 1.24em;
+    border-bottom-left-radius: 35px;
+    border-bottom-right-radius: 35px;
+    background: limegreen;
+    transition: .4s ease-in-out;
+    z-index: 3;
+}
+
+
+.lower {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    text-align: center;
+    color: black;
+    top: 8.5em;
+    border-radius: 20px;
+    margin-top: 0.7em;
+    background-color: aliceblue;
+    width: 100%;
+    height: 100%;
+    font-size: 0.7em;
+    transition: .4s ease-in-out;
+    /*visibility: hidden;*/
+}
+.pressure{
+    position: relative;
+    font-size: 1.5em;
+    width: 50px;
+    left: 1.8em;
+    top: 6em;
+}
+.pressuresvg{
+    position: relative;
+    top: 9em;
+    left: 2.8em;
+}
+.real-feel{
+    margin-right: 1.8em;
+}
+.aqi{
+    position: relative;
+    font-size: 1.5em;
+    width: 50px;
+    left: 1.5em;
+    top: 6em;
+}
+.humidity {
+    position: relative;
+    left: 7.4em;
+    height: 50px;
+    width: 50px;
+    top: -1em;
+    font-size: 1em;
+}
+.wind {
+    position: relative;
+    left: 5.5em;
+    width: 50px;
+    top: 2em;
+    font-size: 1em;
+}
+.wind_svg{
+    position: relative;
+    top: -0.5em;
+    left: 2em;
+
+}
+.humidity_svg{
+    position: relative;
+    top: 1.8em;
+    left: 4em;
+}
+.aqisvg{
+    position: relative;
+    top: 9em;
+    left: 0.85em;
+}
+area:hover .lower {
+    visibility: visible;
+    cursor: pointer;
+}
+area:hover .upper {
+    visibility: visible;
+}
+.marker{
+    position: relative;
+    top: 0.5em;
+    left: 0.5em;
 }

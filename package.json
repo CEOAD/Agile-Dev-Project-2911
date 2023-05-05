@@ -1,0 +1,22 @@
+{
+  "name": "agile-dev",
+  "version": "1.0.0",
+  "description": "Agile-dev-weather-app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CEOAD/Agile-Dev-Project-2911.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CEOAD/Agile-Dev-Project-2911/issues"
+  },
+  "homepage": "https://github.com/CEOAD/Agile-Dev-Project-2911#readme",
+  "dependencies": {
+    "@googlemaps/js-api-loader": "^1.15.1"
+  }
+}
