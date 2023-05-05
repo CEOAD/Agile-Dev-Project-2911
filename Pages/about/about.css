@@ -80,7 +80,7 @@ main {
 }
 
 .site-footer {
-  position: relative;
+  position: fixed;
   background-color: #def7ff;
   bottom: 0;
   width: 100%;
