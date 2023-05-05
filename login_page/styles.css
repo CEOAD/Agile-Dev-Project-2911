@@ -1,0 +1,115 @@
+#login-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    z-index: 1;
+    position: relative;
+}
+
+#login-popup h2 {
+    margin-top: 0;
+}
+
+#login-popup label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#login-popup input {
+    display: block;
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+#login-popup button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+#login-popup button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* #close-button {
+    margin-top: 10px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+} */
+
+#login-popup {
+    position: relative;
+  }
+  
+  #close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  #close-button:focus {
+    outline: none;
+  }
+  
+
+.login-help {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.login-help a {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50x;
+}
+
+.forgot-password-link {
+    text-decoration: none;
+}
+
+.signup-link {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#login-popup label[for="remember-me"] {
+    display: flex;
+    align-items: center;
+}
+
+#login-popup label[for="remember-me"] input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+#login-popup label[for="remember-me"] span {
+    text-decoration: none;
+}
+
+
