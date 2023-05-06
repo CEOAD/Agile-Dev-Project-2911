@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Signup Successful</title>
+  </head>
+  <body>
+    <h1>Signup Successful!</h1>
+    <p>Congratulations, your account has been created.</p>
+    <a id="login-link" href="#">Click here to login</a>
+    <script>
+      const loginLink = document.getElementById('login-link');
+      loginLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        window.location.href = '/public/loginpage.html';
+      });
+    </script>
+  </body>
+</html>

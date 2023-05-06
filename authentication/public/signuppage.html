@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Signup</title>
+  </head>
+  <body>
+    <h1>Create a new account</h1>
+    <form id="signup-form">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" required>
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+      <label for="dob">Date of Birth</label>
+      <input type="date" id="dob" name="dob" required>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+      <button type="submit">Create account</button>
+    </form>
+    <script>
+      const signupForm = document.getElementById('signup-form');
+      signupForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const formData = new FormData(signupForm);
+        const username = formData.get('username');
+        const email = formData.get('email');
+        const dob = formData.get('dob');
+        const password = formData.get('password');
+        const response = await fetch('/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, email, dob, password }),
+        });
+        if (response.ok) {
+          window.location.href = '/dashboard';
+        } else {
+          alert('Signup failed');
+        }
+      });
+    </script>
+  </body>
+</html>
