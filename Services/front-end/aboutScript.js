@@ -12,3 +12,7 @@ navToggle.addEventListener("click", function () {
     this.setAttribute("aria-expanded", "true");
   }
 });
+ReturnToMain = document.querySelector(".return__to__main");
+ReturnToMain.addEventListener("click", function () {
+    window.location.href = "../Mainpage/Mainpage.html";
+});

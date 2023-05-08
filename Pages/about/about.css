@@ -123,3 +123,6 @@ main {
   font-weight: bolder;
   color: black;
 }
+.return__to__main{
+  cursor: pointer;
+}

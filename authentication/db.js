@@ -18,6 +18,3 @@ return bcrypt.hash(password, 10);
 };
 
 module.exports = User;
-
-
-  
