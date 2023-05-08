@@ -1,0 +1,128 @@
+html, body {
+  margin:0; /* to make the header fit the screen without whitespace */
+  padding:0;
+  background-image: url("../../img/background.png");
+  background-color: #cccccc;
+}
+
+.wrapper{
+  max-width: none;
+}
+
+.site-header {
+  position: relative;
+  background-color: #def7ff; }
+
+.site-header__wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem; 
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.nav__wrapper {
+  position: fixed;
+  top: 72px;
+  left: 0;
+  padding: 0;
+  margin-top: 10px; /* to get rid of white line space between header and nav */
+  width: Max(220px, 20%);
+  bottom: 0;
+  z-index: 1;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateX(-100%);
+  background-color: #d9f0f7;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  display: block; 
+}
+
+.nav__wrapper.active {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(0); 
+}
+
+.nav__item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2); 
+  list-style-type: none;
+}
+
+.nav__item a {
+    display: block;
+    padding: 1rem;
+}
+
+.nav__wrapper {
+  margin-right: 0;
+}
+/* End of stuff I stole from Surafele */
+
+main {
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.main { /* page spacing for the main content */
+  display: flex;
+  flex-direction: column;
+}
+
+.people {
+  list-style-type: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.site-footer {
+  position: fixed;
+  background-color: #def7ff;
+  bottom: 0;
+  width: 100%;
+}
+
+.site-footer__wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem; 
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+.contact-wrapper {
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.contact {
+  list-style-type:none;
+}
+
+.profile {
+  width: 70%;
+  height: 70%;
+}
+
+/* universe.io card */
+.card {
+  margin-top: 20px;
+  box-sizing: border-box;
+  background: rgba(217, 217, 217, 0.58);
+  border: 1px solid white;
+  box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(6px);
+  border-radius: 17px;
+  text-align: center;
+  font-weight: bolder;
+  color: black;
+}
+.return__to__main{
+  cursor: pointer;
+}
