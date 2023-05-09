@@ -42,7 +42,9 @@ body {
     display: none !important;
 }
 
-
+#chosen li{
+    cursor: pointer;
+}
 @keyframes fade-in {
     from {
         opacity: 0;
@@ -232,6 +234,7 @@ body {
 
 .wrapper{
     max-width: none;
+
 }
 
 .brand {
@@ -241,7 +244,12 @@ body {
 
 .site-header {
     position: relative;
-    background-color: #def7ff; }
+    background-color: #def7ff;
+    display: flex;
+    align-items: normal;
+    flex-direction: row;
+    min-height: 100px;
+}
 
 .site-header__wrapper {
     display: flex;
@@ -273,11 +281,33 @@ body {
     transform: translateX(0); }
 
 .nav__item {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+
+}
 .nav__item a {
     display: block;
-    padding: 1rem; }
+    padding: 1rem;
+    cursor: pointer;
+}
 
 .nav__wrapper {
     margin-right: 0;
+}
+.second-wrapper{
+    display: flex;
+    flex-direction: row;
+    margin-left: 70%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    width: 100%;
+    margin-right: 0;
+}
+.button{
+    display: flex;
+    flex-direction: row;
+
+}
+.favs{
+    margin-top: 6%;
+    min-height: 52px;
 }

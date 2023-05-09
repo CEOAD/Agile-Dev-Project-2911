@@ -127,6 +127,25 @@ class GoogleMapsController {
 
         // Wait for the map to be fully loaded before handling the initial marker update
         google.maps.event.addListenerOnce(this.map, 'idle', () => this.updateMarkers(true));
+        const searchInput = document.getElementById("search-input");
+        const autocomplete = new google.maps.places.Autocomplete(searchInput);
+
+        autocomplete.addListener("place_changed", () => {
+            const place = autocomplete.getPlace();
+            if (!place.geometry) {
+                // User entered the name of a Place that was not suggested and pressed the Enter key or the place was not found
+                window.alert("No details available for the selected location.");
+                return;
+            }
+            // If the place has a geometry, present it on a map
+            this.map.setCenter(place.geometry.location);
+            this.map.setZoom(14);
+            this.marker.setPosition(place.geometry.location);
+
+            this.closeAllInfoWindows().then(() => {
+                this.updateMarkers(true)
+            });
+        });
     }
 
     async getUserCurrentLocation() {
@@ -278,6 +297,7 @@ class GoogleMapsController {
     }
 
     closeAllInfoWindows() {
+        console.log(this.infoWindows.marker)
         const infoWindows = [this.infoWindows.marker, ...this.infoWindows.cityMarkers].filter(e => e !== null);
         for (let infoWindow of infoWindows) {
             if (infoWindow.getMap()) {
@@ -285,6 +305,7 @@ class GoogleMapsController {
                 return true;
             }
         }
+        console.log(this.infoWindows.marker)
         return false;
     }
 
