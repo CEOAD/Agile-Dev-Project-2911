@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- Button that toggles the login dropdown -->
+    <button id="login-toggle">Login</button>
+
+    <!-- Login form container -->
+    <div id="login-dropdown">
+    <!-- Login form markup -->
+    <form id="login-form">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username">
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+
+        <input type="submit" value="Log In">
+    </form>
+    </div>
+
+    <style>
+    /* Hide the login dropdown by default */
+    #login-dropdown {
+        display: none;
+    }
+
+    /* Style the toggle button */
+    #login-toggle {
+        background-color: #333;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    </style>
+
+    <script>
+    const loginToggle = document.getElementById('login-toggle');
+    const loginDropdown = document.getElementById('login-dropdown');
+    const loginForm = document.getElementById('login-form');
+
+    // Toggle the visibility of the login dropdown when the toggle button is clicked
+    loginToggle.addEventListener('click', () => {
+        loginDropdown.style.display = loginDropdown.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // Authenticate the user and redirect them to the main page when the login form is submitted
+    loginForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        if (username === 'admin' && password === 'password') {
+        alert('Login successful!');
+        location.href = 'main.html'; // Redirect to the main page
+        } else {
+        alert('Invalid username or password!');
+        }
+    });
+    </script>
+
+</body>
+</html>
