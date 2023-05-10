@@ -24,6 +24,10 @@ html, body {
   margin-right: 0;
 }
 
+.site-header__wrapper > * {
+  flex: 1 0 0;
+}
+
 .nav__wrapper {
   position: fixed;
   top: 72px;
@@ -128,6 +132,12 @@ main {
   font-weight: bolder;
   color: black;
 }
+
 .return__to__main{
   cursor: pointer;
+  text-align: center;
+}
+
+.button {
+  text-align: right;
 }
