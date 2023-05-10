@@ -105,7 +105,6 @@ class GoogleMapsController {
             },
         ];
     }
-
     async initMap() {
         const userLocation = (await this.getUserCurrentLocation());
         const initialMarkerPosition = userLocation ?? {lat: 0, lng: 0};
@@ -142,8 +141,8 @@ class GoogleMapsController {
             this.map.setZoom(14);
             this.marker.setPosition(place.geometry.location);
 
-            this.closeAllInfoWindows().then(() => {
-                this.updateMarkers(true)
+            this.updateMarkers(true).then(() => {
+                this.closeAllInfoWindows();
             });
         });
     }
@@ -163,7 +162,7 @@ class GoogleMapsController {
 
     onMapClicked(event) {
         const clickedPosition = event.latLng;
-
+        this.infoWindows.marker?.close();
         const infoWindows = [this.infoWindows.marker, ...this.infoWindows.cityMarkers].filter(e => e !== null);
 
         const infoWindowBounds = infoWindows.map((infoWindow) =>
@@ -200,7 +199,6 @@ class GoogleMapsController {
 
     async updateMarkers(withNearbyCities = false) {
 
-        this.closeAllInfoWindows();
         this.infoWindows.marker = null;
         this.infoWindows.cityMarkers.splice(0, this.infoWindows.cityMarkers.length);
 
@@ -239,6 +237,7 @@ class GoogleMapsController {
                 this.infoWindows.cityMarkers.push(infoWindow);
             })
         }
+
     }
 
     async setupMarkerAndMarkerInfoWindow(marker) {
@@ -290,14 +289,14 @@ class GoogleMapsController {
             borderWidth: 2,
         });
         marker.addListener("click", () => {
-            this.closeAllInfoWindows();
             infoWindow.open(this.map, marker);
         });
         return infoWindow;
     }
 
+
     closeAllInfoWindows() {
-        console.log(this.infoWindows.marker)
+        this.infoWindows.marker?.close();
         const infoWindows = [this.infoWindows.marker, ...this.infoWindows.cityMarkers].filter(e => e !== null);
         for (let infoWindow of infoWindows) {
             if (infoWindow.getMap()) {
@@ -305,9 +304,9 @@ class GoogleMapsController {
                 return true;
             }
         }
-        console.log(this.infoWindows.marker)
         return false;
     }
+
 
     createMarkerInfoWindowCard(weatherData, aqiData = undefined) {
         const cityName = weatherData?.name ?? "";
