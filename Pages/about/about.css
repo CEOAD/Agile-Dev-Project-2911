@@ -80,7 +80,7 @@ main {
 }
 
 .site-footer {
-  position: fixed;
+  position: relative;
   background-color: #def7ff;
   bottom: 0;
   width: 100%;
@@ -96,6 +96,11 @@ main {
   margin-left: 0;
   margin-right: 0;
 }
+
+.footer_title {
+  padding-top: 15px;
+}
+
 .contact-wrapper {
   padding-left: 10%;
   padding-right: 10%;
