@@ -4,7 +4,7 @@
   "description": "Agile-dev-weather-app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,11 @@
   },
   "homepage": "https://github.com/CEOAD/Agile-Dev-Project-2911#readme",
   "dependencies": {
-    "@googlemaps/js-api-loader": "^1.15.1"
+    "@googlemaps/js-api-loader": "^1.15.1",
+    "axios": "^1.4.0"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0",
+    "nock": "^13.3.1"
   }
 }
