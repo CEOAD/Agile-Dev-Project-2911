@@ -93,8 +93,52 @@ class ApiController {
     static getWeatherIconURL(iconCode) {
         return `http://openweathermap.org/img/w/${iconCode}.png`;
     }
+    static async getFutureForecast(latitude, longitude) {
+        try {
+            const response = await axios.get("https://api.openweathermap.org/data/3.0/onecall", {
+                params: {
+                    lat: latitude,
+                    lon: longitude,
+                    appid: "3f171dd2f33fcfa66e7d8971457c3922",
+                    units: "metric",
+                }
+            });
+            console.log(response.data);
+            const data = await response;
+            console.log(data.data);
+            // Extract the necessary forecast data for the future days
+            const futureForecast = {
+                tomorrow: this.extractDayForecast(data.data.daily[1]),
+                dayAfterTomorrow: this.extractDayForecast(data.data.daily[2]),
+                dayAfterDayAfterTomorrow: this.extractDayForecast(data.data.daily[3]),
+                dayAfterDayAfterDayAfterTomorrow: this.extractDayForecast(data.data.daily[4])
+            };
+
+            return futureForecast;
+        } catch (error) {
+            console.log('Error fetching future forecast:', error);
+            throw error;
+        }
+    }
+
+    static extractDayForecast(forecastData) {
+        const date = new Date(forecastData.dt * 1000); // Convert timestamp to date object
+        const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const day = daysOfWeek[date.getDay()];
+
+        return {
+            day,
+            weatherIconUrl: `https://openweathermap.org/img/wn/${forecastData.weather[0].icon}.png`,
+            weatherDescription: forecastData.weather[0].description,
+            minTemperature: forecastData.temp.min,
+            maxTemperature: forecastData.temp.max
+        };
+    }
+
+
+
 
 }
 
-// export default ApiController;
-module.exports = ApiController;
+
+export default ApiController;

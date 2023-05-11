@@ -311,3 +311,39 @@ body {
     margin-top: 6%;
     min-height: 52px;
 }
+.future-forecast-container{
+    position: absolute;
+    background-color: white;
+    position: absolute;
+    left: 6.8rem;
+    top: 3.6rem;
+}
+.future-forecast{
+    font-size: 0.5rem;
+    height: 1%;
+    border-radius: 20px;
+    /*width: 50%;*/
+    background-color: #0036ff;
+    color: white;
+}
+.future-forecast-card{
+    background-color: white;
+    position: relative;
+    top: -5rem;
+    height: 100%;
+    padding: 20px;
+    border-radius: 20px;
+}
+.day-headers{
+    font-size: 1.5rem;
+    margin-top: 10px;
+
+}
+.future-forecast-card-body-content-row1{
+    margin-top: 72px;
+}
+.future-forecast-weather-icon{
+    box-shadow: #000000 0px 0px 5px;
+    border: none;
+    border-radius: 50%;
+}
