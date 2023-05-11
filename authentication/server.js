@@ -7,6 +7,24 @@ const app = express();
 const port = 8000;
 const uri = 'mongodb+srv://surf:surf@myweatheruserscluster.mjq0rxo.mongodb.net/?retryWrites=true&w=majority';
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Internal server error');
+});
+
+app.use(express.static('public', {
+  setHeaders: (res, path, stat) => {
+    if (path.endsWith('.css')) {
+      res.set('Content-Type', 'text/css');
+    }
+  }
+}));
+
+app.listen(port, () => {
+  console.log(`Server started, listening on port ${port}`);
+});
+
 
 mongoose.connect(uri, {
     useNewUrlParser: true,
@@ -18,6 +36,10 @@ mongoose.connect(uri, {
 
 app.post('/signup', async (req, res) => {
   const { username, email, dob, password } = req.body;
+  if (!password) {
+    console.log(res.statusMessage)
+    return res.status(400).send('Password is required');
+  }  
   const hashedPassword = await bcrypt.hash(password, 10);
   const user = new User({
     username,
@@ -43,26 +65,18 @@ app.post('/login', async (req, res) => {
 });
 
 app.get('/dashboard', (req, res) => {
-    res.sendFile(__dirname + '/public/dashboard.html');
+    res.sendFile(__dirname + '/public/Mainpage/MainPage.html');
   });
   
 
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/signuppage.html');
+  res.sendFile(__dirname + '/public/Mainpage/MainPage.html');
 });
 
 app.get('/public/loginpage.html', (req, res) => {
-    res.sendFile(__dirname + '/public/loginpage.html');
+    res.sendFile(__dirname + '/public/signup_page/signup_page.html');
   });
   
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Internal server error');
-});
 
-app.listen(port, () => {
-  console.log(`Server started, listening on port ${port}`);
-});
