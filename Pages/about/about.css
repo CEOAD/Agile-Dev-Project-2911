@@ -1,8 +1,7 @@
 html, body {
   margin:0; /* to make the header fit the screen without whitespace */
   padding:0;
-  background: url("../../img/background.png") no-repeat center center fixed;
-  background-color: #5287b6;
+  background: url("../../img/background.png") no-repeat center center fixed #5287b6;
 }
 
 .wrapper{
@@ -72,10 +71,13 @@ html, body {
 }
 
 .people {
-  list-style-type: none;
-  padding: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
+  align-items: center;
+  justify-content:space-between;
+  overflow-x:hidden;
+  height: 50%;
+  max-height: 100%;
+  padding-bottom: 10%;
 }
 
 .site-footer {
@@ -112,8 +114,8 @@ html, body {
 }
 
 .profile {
-  width: 70%;
-  height: 70%;
+  width: 200px;
+  height: 200px;
 }
 
 /* universe.io card */
@@ -148,4 +150,14 @@ html, body {
 .background {
   background-color:#e2e0ec;
   width: 100%;
+}
+
+.profile_container {
+  margin-top: 20px;
+  background: #fff;
+  text-align: center;
+  font-weight: bolder;
+  color: black;
+  padding: 5%;
+  margin-right: 30px;
 }
