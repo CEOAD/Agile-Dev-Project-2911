@@ -1,6 +1,5 @@
 const nock = require('nock');
 const ApiController = require('./api_controller.js');
-const axios = require('axios');
 // Mock Google Maps services
 global.google = {
     maps: {

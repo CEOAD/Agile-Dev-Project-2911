@@ -130,7 +130,7 @@ body {
     transition-delay: 0.5s;
 }
 
-.card-container .center-card.hovering {
+.card-container .center-card.hovering  {
     top: 60px;
     bottom: 110px;
     transition-delay: 0s;
@@ -314,7 +314,6 @@ body {
 .future-forecast-container{
     position: absolute;
     background-color: white;
-    position: absolute;
     left: 6.8rem;
     top: 3.6rem;
 }

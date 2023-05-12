@@ -201,7 +201,7 @@ class GoogleMapsController {
         this.infoWindows.marker = null;
         this.infoWindows.cityMarkers.splice(0, this.infoWindows.cityMarkers.length);
 
-        this.setupMarkerAndMarkerInfoWindow(this.marker).then(infoWindow => {
+        this.setupMarkerAndMarkerInfoWindow(this.marker, true).then(infoWindow => {
             this.infoWindows.marker = infoWindow;
         });
 
@@ -232,19 +232,20 @@ class GoogleMapsController {
                 },
             });
             this.cityMarkers.push(cityMarker);
-            this.setupMarkerAndMarkerInfoWindow(cityMarker).then(infoWindow => {
+            this.setupMarkerAndMarkerInfoWindow(cityMarker, false).then(infoWindow => {
                 this.infoWindows.cityMarkers.push(infoWindow);
-            })
+            });
         }
 
     }
-    async futureForecastWindow() {
+    async futureForecastWindow(marker) {
         console.log("future forecast window")
-        const markerPosition = this.marker.getPosition();
+        const markerPosition = marker.getPosition();
         const futureForecast = await ApiController.getFutureForecast(markerPosition.lat(), markerPosition.lng());
         const futureForecastWindow = await this.createFutureForecastWindow(futureForecast);
-        this.futureForecastWindow = futureForecastWindow;
-        this.futureForecastWindow.open(this.map, this.marker);
+        this.futureForecastInfoWindow = futureForecastWindow;
+        this.futureForecastInfoWindow.open(this.map, marker);
+
     }
 
     async createFutureForecastWindow(futureForecast) {
@@ -300,7 +301,7 @@ class GoogleMapsController {
   `;
     }
 
-    async setupMarkerAndMarkerInfoWindow(marker) {
+    async setupMarkerAndMarkerInfoWindow(marker, isMainMarker = false) {
         const markerPosition = marker.getPosition();
 
         const markerInfoWindowContent = this.createMarkerInfoWindowCard(
@@ -325,7 +326,7 @@ class GoogleMapsController {
                 card.classList.add('hovering');
             });
             futureForecastButton.addEventListener('click', () => {
-                this.futureForecastWindow();
+                this.futureForecastWindow(marker);
             });
             content.addEventListener('mouseleave', () => {
                 upperCard.classList.remove('show');
