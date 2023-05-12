@@ -1,6 +1,8 @@
 import SVGs from "./svgs.js";
 import ApiController from "./api_controller.js";
 import Utils from './utils.js';
+import { favs, areaSelector, delBtn, addFav } from '../../Pages/homepage/favourites.js';
+
 
 /**
  * Houses the logic for manipulating the Google Maps insterface.
@@ -119,6 +121,10 @@ class GoogleMapsController {
             draggable: true,
             position: initialMarkerPosition,
         });
+        // Favourites Dropdown
+        favs.addEventListener("click", () => { addFav(event, this.marker) });
+        favs.addEventListener("click", () => { areaSelector(event, this.map, this.marker) });
+        favs.addEventListener("click", () => { delBtn(event) });
 
         this.marker.addListener("dragend", () => this.updateMarkers(true).then());
 
