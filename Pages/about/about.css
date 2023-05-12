@@ -1,8 +1,8 @@
 html, body {
   margin:0; /* to make the header fit the screen without whitespace */
   padding:0;
-  background-image: url("../../img/background.png");
-  background-color: #cccccc;
+  background: url("../../img/background.png") no-repeat center center fixed;
+  background-color: #5287b6;
 }
 
 .wrapper{
@@ -66,14 +66,9 @@ html, body {
 }
 /* End of stuff I stole from Surafele */
 
-main {
-  padding-left: 10%;
-  padding-right: 10%;
-}
-
 .main { /* page spacing for the main content */
-  display: flex;
-  flex-direction: column;
+  padding-left:10%;
+  padding-right:10%;
 }
 
 .people {
@@ -123,16 +118,16 @@ main {
 
 /* universe.io card */
 .card {
+  transform: translateY(-60px);
   margin-top: 20px;
   box-sizing: border-box;
-  background: rgba(217, 217, 217, 0.58);
-  border: 1px solid white;
+  background: #fff;
   box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
   backdrop-filter: blur(6px);
-  border-radius: 17px;
   text-align: center;
   font-weight: bolder;
   color: black;
+  padding: 5%;
 }
 
 .return__to__main{
@@ -142,4 +137,15 @@ main {
 
 .button {
   text-align: right;
+}
+
+.welcome_wrapper {
+  margin-top: 20%;
+  margin-bottom: 20%;
+  margin-left: 10%;
+}
+
+.background {
+  background-color:#e2e0ec;
+  width: 100%;
 }
