@@ -20,18 +20,6 @@ export function createLi (placeName){
     return newLi
 }
 
-export function areaSelector(event, map, marker){
-    for (let city of cityArray){
-        if (event.target.textContent.includes(city["city"])) {
-            let coordinate = city["coord"];
-            map.setCenter(coordinate);
-            map.setZoom(8);
-            marker.setPosition(coordinate);
-            this.updateMarkers(true).then();
-        }
-    }
-}
-
 export function delBtn(event){
     if (event.target.tagName === "BUTTON"){
         for (let city of cityArray) {
