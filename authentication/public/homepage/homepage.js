@@ -44,7 +44,7 @@ for (i = 0; i < markersArray.length; i++) {
     markersArray = [];
   } 
 
-Sign_in = document.querySelector(".sign__up");
+const Sign_in = document.querySelector(".sign__up");
 Sign_in.addEventListener("click", function () {
     window.location.href = "../signup_page/signup_page.html";
 });
@@ -59,3 +59,4 @@ loginBtn.addEventListener('click', () => {
 });
 
 
+    
