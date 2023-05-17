@@ -52,11 +52,11 @@ signupForm.addEventListener('submit', async (event) => {
   const response = await fetch('/signup', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, email, dob, password }),
+    body: JSON.stringify({ username: username, email: email, dob: dob, password: password }),
   });
   const data = await response.json(); 
   if (response.ok) {
-    window.location.href = '/dashboard';
+    window.location.href = '/';
   } else {
     alert(data.error);
   }

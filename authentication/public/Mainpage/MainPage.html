@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="../homepage/style.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css">
     <link rel="stylesheet" type="text/html" href="index.css"/>
-
 </head>
 <body>
 <header class="site-header">
@@ -73,8 +72,8 @@
         </div>
         <!-- Sign In Button-->
 
-        <a href="#" class="button button--icon" aria-label="Sign up">
-            <button class="nav__toggle">Log in</button>
+        <a id=loginbutt href="#" class="button button--icon" aria-label="Sign up">
+            <button id=loginbutt class="nav__toggle">Log in</button>
             <svg
                     version="1.1"
                     viewBox="0 0 100 100"
@@ -95,11 +94,11 @@
     </div>
 </header>
 <!-- Header End -->
-<div class="login-card">
+<div id=loginbutt class="login-card">
 <form id='form' class="form">
     <div class="inputs">
-        <input placeholder="Email" class="input" type="text">
-        <input placeholder="Password" class="input" type="password">
+        <input placeholder="Email" class="input" type="text" name="email">
+        <input placeholder="Password" class="input" type="password" name="password">
     <div class="checkbox-container">
         <label class="checkbox">
         <input type="checkbox" id="checkbox">
@@ -111,8 +110,9 @@
     <p class="signup-link">Don't have an account? <a href="#">Sign up</a></p>
     </div>
   </form></div>
-  <script type='module' src="mainpage.js"></script>
-<script type="module" src="../homepage/homepage.js"></script>
+  <script defer type='module' src="../homepage/mainpage.js"></script>
+<script defer type="module" src="../homepage/homepage.js"></script>
+
 <div id="map"></div>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script type="module" src="../../../Services/front-end/_index.js"></script>
