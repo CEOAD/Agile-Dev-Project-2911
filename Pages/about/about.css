@@ -82,11 +82,11 @@ html, body {
 }
 
 .site-footer__wrapper {
+  transform: translateX(-18px);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 1rem;
-  padding-bottom: 1rem; 
+  padding: 1rem 0;
   width: 100%;
   margin-left: 0;
   margin-right: 0;
