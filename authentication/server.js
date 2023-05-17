@@ -76,9 +76,13 @@ passport.deserializeUser(function (id, done) {
 	});
 });
 
-passport.use(new LocalStrategy(function (email, password, done) {
-	console.log(req.session);
+passport.use(new LocalStrategy({
+	usernameField: 'email', // Specify the field name for email
+	passwordField: 'password', // Specify the field name for password
+  }, function (email, password, done) {
 	User.findOne({ email: email }, function (err, user) {
+		console.log('Email:', email);
+		console.log('Password:', password);
 		if (err) return done(err);
 		if (!user) return done(null, false, { message: 'Incorrect email.' });
 
@@ -146,22 +150,38 @@ try {
 }
 });
 
-
-app.post('/login', passport.authenticate('local', { 
-	failureRedirect: '/login-failure', 
-	successRedirect: '/login-success'
-  }), (err, req, res, next) => {
-	if (err) next(err);
+app.post('/login', (req, res, next) => {
+	passport.authenticate('local', (err, user, info) => {
+	  if (err) {
+		return res.status(500).json({ message: 'Internal server error' });
+	  }
+	  if (!user) {
+		return res.status(401).json({ message: 'Login attempt failed' });
+	  }
+	  req.login(user, (err) => {
+		if (err) {
+		  return res.status(500).json({ message: 'Internal server error' });
+		}
+		return res.status(200).json({ message: 'Login attempt successful' });
+	  });
+	})(req, res, next);
   });
   
-app.get('/login-failure', (req, res, next) => {
-res.send('Login Attempt Failed.');
-});
-
-app.get('/login-success', (req, res, next) => {
-console.log(req.session);
-res.send('Login Attempt was successful.');
-});
+  
+  
+  app.get('/login-failure', (req, res, next) => {
+	res.json({ message: 'Login Attempt Failed' });
+  });
+  
+  app.get('/login-success', (req, res, next) => {
+	console.log(req.session);
+	const responseObj1 = { message: 'Login Attempt was successful' };
+	const responseObj2 = { data: req.session.passport };
+	const combinedResponse = { response1: responseObj1, response2: responseObj2 };
+	console.log(combinedResponse.response1.message, combinedResponse.response2.data);
+	res.json(combinedResponse);
+  });
+  
 
 app.get('/logout', function (req, res) {
 	req.logout();
