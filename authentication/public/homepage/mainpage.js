@@ -28,17 +28,20 @@ loginForm.addEventListener('submit', async (event) => {
 
           // Update the UI based on the user's authentication status
           console.log(isAuthenticatedResponse);
-          const signupButton = document.querySelector('#loginbutt');
+          const signupButton = document.querySelector('body > header > div > a.button.button--icon > button.nav__toggle.sign__up');
+          const loginButton = document.querySelector('#loginbutt');
           const loginCard = document.querySelector('.login-card');
           const favoritesButton = document.querySelector('#favorites')
           if (isAuthenticatedResponse) {
             console.log('User is authenticated', isAuthenticatedResponse);
-            signupButton.style.display = 'none'; // Hide the sign-in button
+            loginButton.textContent = 'Log Out'; // Hide the sign-in button
             favoritesButton.style.float = 'right'; // Push the favorites button to the right side
             loginCard.classList.toggle('show');
+            const svgElementtoRemove = document.querySelector('body > header > div > a.button.button--icon > svg');
+            signupButton.replaceWith(svgElementtoRemove);
           } else {
             console.log("User isn't authenticated");
-            signupButton.style.visibility = 'hidden';
+            loginButton.style.visibility = 'hidden';
           }
         })
         .catch(error => {
