@@ -105,7 +105,6 @@ class GoogleMapsController {
             },
         ];
     }
-
     async initMap() {
         const userLocation = (await this.getUserCurrentLocation());
         const initialMarkerPosition = userLocation ?? {lat: 0, lng: 0};
@@ -127,6 +126,25 @@ class GoogleMapsController {
 
         // Wait for the map to be fully loaded before handling the initial marker update
         google.maps.event.addListenerOnce(this.map, 'idle', () => this.updateMarkers(true));
+        const searchInput = document.getElementById("search-input");
+        const autocomplete = new google.maps.places.Autocomplete(searchInput);
+
+        autocomplete.addListener("place_changed", () => {
+            const place = autocomplete.getPlace();
+            if (!place.geometry) {
+                // User entered the name of a Place that was not suggested and pressed the Enter key or the place was not found
+                window.alert("No details available for the selected location.");
+                return;
+            }
+            // If the place has a geometry, present it on a map
+            this.map.setCenter(place.geometry.location);
+            this.map.setZoom(14);
+            this.marker.setPosition(place.geometry.location);
+
+            this.updateMarkers(true).then(() => {
+                this.closeAllInfoWindows();
+            });
+        });
     }
 
     async getUserCurrentLocation() {
@@ -144,7 +162,7 @@ class GoogleMapsController {
 
     onMapClicked(event) {
         const clickedPosition = event.latLng;
-
+        this.infoWindows.marker?.close();
         const infoWindows = [this.infoWindows.marker, ...this.infoWindows.cityMarkers].filter(e => e !== null);
 
         const infoWindowBounds = infoWindows.map((infoWindow) =>
@@ -181,7 +199,6 @@ class GoogleMapsController {
 
     async updateMarkers(withNearbyCities = false) {
 
-        this.closeAllInfoWindows();
         this.infoWindows.marker = null;
         this.infoWindows.cityMarkers.splice(0, this.infoWindows.cityMarkers.length);
 
@@ -220,6 +237,7 @@ class GoogleMapsController {
                 this.infoWindows.cityMarkers.push(infoWindow);
             })
         }
+
     }
 
     async setupMarkerAndMarkerInfoWindow(marker) {
@@ -271,13 +289,14 @@ class GoogleMapsController {
             borderWidth: 2,
         });
         marker.addListener("click", () => {
-            this.closeAllInfoWindows();
             infoWindow.open(this.map, marker);
         });
         return infoWindow;
     }
 
+
     closeAllInfoWindows() {
+        this.infoWindows.marker?.close();
         const infoWindows = [this.infoWindows.marker, ...this.infoWindows.cityMarkers].filter(e => e !== null);
         for (let infoWindow of infoWindows) {
             if (infoWindow.getMap()) {
@@ -287,6 +306,7 @@ class GoogleMapsController {
         }
         return false;
     }
+
 
     createMarkerInfoWindowCard(weatherData, aqiData = undefined) {
         const cityName = weatherData?.name ?? "";

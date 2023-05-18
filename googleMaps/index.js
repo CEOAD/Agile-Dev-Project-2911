@@ -15,7 +15,6 @@ async function initMap() {
     center: position,
     mapId: "DEMO_MAP_ID",
   });
-
   // The marker, positioned at Uluru
   const marker = new AdvancedMarkerView({
     map: map,
