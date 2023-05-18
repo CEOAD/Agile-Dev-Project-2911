@@ -14,19 +14,31 @@ const uri = 'mongodb+srv://surf:surf@myweatheruserscluster.mjq0rxo.mongodb.net/?
 const userSchema = new mongoose.Schema({
     username: {
       type: String,
-      required: true,
+      required: [true, "username required"],
+	  unique: [true, "username already in use"],
     },
     email: {
       type: String,
       required: [true, "email required"],
       unique: [true, "email already registered"],
     },
-    firstName: String,
-    lastName: String,
-    profilePhoto: String,
-    address: String,
-    password: String,
-    dob: { type: Date, required: true },
+    favorite_cities: String,
+    password: {
+		type: String,
+		required: [true, "password required"]
+	},
+    dob: {
+		type: Date,
+		required: [true, "Date of birth is required"],
+		validate: {
+		  validator: function (value) {
+			const currentDate = new Date();
+			const twelveYearsAgo = new Date().setFullYear(currentDate.getFullYear() - 12);
+			return value <= twelveYearsAgo;
+		  },
+		  message: "You must be at least 12 years old to register",
+		},
+	},
   }, { collection: 'myWeatherUsersv2' });
 
 
@@ -39,42 +51,34 @@ mongoose.connect(uri, {
 });
 
 // Middleware
-
-app.use(express.static(__dirname + '/public'));
-app.use(session({
-	secret: "verygoodsecret",
-	resave: false,
-	saveUninitialized: true
-}));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
-
-// Serve static files
-app.use(express.static(__dirname + '/public'));
-// ...
-
-// Move these lines after the app.use() statement
-
-
-
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/Mainpage/MainPage.html');
-});
+app.use(session({
+  secret: "verygoodsecret",
+  resave: false,
+  saveUninitialized: true,
+  store: new MongoStore({ uri, collection: 'sessions' }),
+}));
 
 // Passport.js
-app.use(passport.initialize());
-app.use(passport.session());
-
 passport.serializeUser(function (user, done) {
-	done(null, user.id);
+  done(null, user.id);
 });
 
 passport.deserializeUser(function (id, done) {
-	User.findById(id, function (err, user) {
-		done(err, user);
-	});
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
 });
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Serve static files
+app.use(express.static(__dirname + '/public'));
+
+
+
 
 passport.use(new LocalStrategy({
 	usernameField: 'email', // Specify the field name for email
@@ -99,56 +103,68 @@ passport.use(new LocalStrategy({
 
 // ROUTES
 
-
+app.get('/', (req, res) => {
+	res.sendFile(__dirname + '/public/Mainpage/MainPage.html');
+  });
   
-app.get('/authStatus', function(req, res) {
+app.get('/authStatus', function (req, res) {
 	if (req.isAuthenticated()) {
-	  res.json({ message: 'You made it to the secured profie' })
+	  res.json({ message: 'Authentication Successful', isAuthenticated: true });
 	} else {
-	  res.json({ message: 'You are not authenticated' })
+	  res.json({ message: 'Authentication Unsuccessful', isAuthenticated: false });
 	}
-  })
+  });
 
-
-app.post('/signup', async (req, res) => {
-try {
-	const { username, email, password, dob } = req.body;
-
-	// Check if the username is already taken
-	const existingEmail = await User.findOne({ email: req.body.email });
-	if (existingEmail) {
-	return res.status(400).json({ error: 'Email already in use.' });
+  app.post('/signup', async (req, res) => {
+	try {
+	  const { username, email, password, dob } = req.body;
+  
+	  // Check if the email is already taken
+	  const existingEmail = await User.findOne({ email: req.body.email });
+	  if (existingEmail) {
+		return res.status(400).json({ error: 'Email already in use.' });
+	  }
+  
+	  // Check if the username is already taken
+	  const existingUsername = await User.findOne({ username: req.body.username });
+	  if (existingUsername) {
+		return res.status(400).json({ error: 'Username already in use.' });
+	  }
+  
+	  // Hash the password
+	  const salt = await bcrypt.genSalt(10);
+	  const hashedPassword = await bcrypt.hash(password, salt);
+  
+	  // Create a new user
+	  const newUser = new User({
+		username: username,
+		email: email,
+		password: hashedPassword,
+		dob: dob
+	  });
+  
+	  // Save the user to the database
+	  await newUser.save();
+  
+	  // Redirect or send a response indicating success
+	  // Redirect to the dashboard after successful signup
+	  req.login(newUser, function(err) {
+		if (err) {
+		  console.error(err);
+		  return res.status(500).json({ error: 'Internal server error' });
+		}
+		return res.status(200).json({ success: true });
+	  });
+	} catch (error) {
+	  if (error.name === 'ValidationError' && error.errors && error.errors.dob) {
+		// Handling date of birth validation error
+		return res.status(400).json({ error: error.errors.dob.message });
+	  }
+	  console.error(error);
+	  res.status(500).json({ error: error });
 	}
-
-	// Hash the password
-	const salt = await bcrypt.genSalt(10);
-	const hashedPassword = await bcrypt.hash(password, salt);
-
-	// Create a new user
-	const newUser = new User({
-	username: username,
-	email: email,
-	password: hashedPassword,
-	dob: dob
-	});
-
-	// Save the user to the database
-	await newUser.save();
-
-	// Redirect or send a response indicating success
-	// Redirect to the dashboard after successful signup
-	req.login(newUser, function(err) {
-	if (err) {
-		console.error(err);
-		return res.status(500).json({ error: 'Internal server error' });
-	}
-	return res.status(200).json({ success: true })
-	});
-} catch (error) {
-	console.error(error);
-	res.status(500).json({ error: 'Internal server error' });
-}
-});
+  });
+  
 
 app.post('/login', (req, res, next) => {
 	passport.authenticate('local', (err, user, info) => {
@@ -162,10 +178,12 @@ app.post('/login', (req, res, next) => {
 		if (err) {
 		  return res.status(500).json({ message: 'Internal server error' });
 		}
-		return res.status(200).json({ message: 'Login attempt successful' });
+		// Handle successful login
+		return res.status(200).json({ message: 'Login attempt successful', isAuthenticated: true });
 	  });
 	})(req, res, next);
   });
+  
   
   
   
@@ -182,13 +200,14 @@ app.post('/login', (req, res, next) => {
 	res.json(combinedResponse);
   });
   
-
-app.get('/logout', function (req, res) {
-	req.logout();
-	res.redirect('/');
-});
+  
 	
-
+app.post('/logout', function(req, res, next) {
+	req.logout(function(err) {
+	  if (err) { return next(err); }
+	  res.send({ message: 'Logged out successfully' });
+	});
+  });
 
 app.listen(port, () => {
 	console.log(`Listening on port ${port}`);
