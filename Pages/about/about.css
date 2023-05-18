@@ -140,6 +140,10 @@ html, body {
   margin-top: 20%;
   margin-bottom: 20%;
   margin-left: 10%;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  padding-right:10%;
 }
 
 .background {
@@ -224,4 +228,17 @@ img {
   mask-image: linear-gradient(to left, transparent 5%, black);
   height: 50px;
   width: 50px;
+}
+
+.logo_wrapper {
+  background: #0091ff;
+  border-radius: 24% 76% 10% 90% / 70% 87% 13% 30%
+}
+
+.logo {
+  height:400px;
+  width:500px;
+  background: #5287b6;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 69% 31% 63% 37% / 49% 53% 47% 51%;
 }
