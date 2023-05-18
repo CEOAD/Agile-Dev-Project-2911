@@ -39,42 +39,34 @@ mongoose.connect(uri, {
 });
 
 // Middleware
-
-app.use(express.static(__dirname + '/public'));
-app.use(session({
-	secret: "verygoodsecret",
-	resave: false,
-	saveUninitialized: true
-}));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
-
-// Serve static files
-app.use(express.static(__dirname + '/public'));
-// ...
-
-// Move these lines after the app.use() statement
-
-
-
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/Mainpage/MainPage.html');
-});
+app.use(session({
+  secret: "verygoodsecret",
+  resave: false,
+  saveUninitialized: true,
+  store: new MongoStore({ uri, collection: 'sessions' }),
+}));
 
 // Passport.js
-app.use(passport.initialize());
-app.use(passport.session());
-
 passport.serializeUser(function (user, done) {
-	done(null, user.id);
+  done(null, user.id);
 });
 
 passport.deserializeUser(function (id, done) {
-	User.findById(id, function (err, user) {
-		done(err, user);
-	});
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
 });
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Serve static files
+app.use(express.static(__dirname + '/public'));
+
+
+
 
 passport.use(new LocalStrategy({
 	usernameField: 'email', // Specify the field name for email
@@ -99,16 +91,17 @@ passport.use(new LocalStrategy({
 
 // ROUTES
 
-
+app.get('/', (req, res) => {
+	res.sendFile(__dirname + '/public/Mainpage/MainPage.html');
+  });
   
-app.get('/authStatus', function(req, res) {
+app.get('/authStatus', function (req, res) {
 	if (req.isAuthenticated()) {
-	  res.json({ message: 'You made it to the secured profie' })
+	  res.json({ message: 'You made it to the secured profile', isAuthenticated: true });
 	} else {
-	  res.json({ message: 'You are not authenticated' })
+	  res.json({ message: 'You are not authenticated', isAuthenticated: false });
 	}
-  })
-
+  });
 
 app.post('/signup', async (req, res) => {
 try {
@@ -162,10 +155,12 @@ app.post('/login', (req, res, next) => {
 		if (err) {
 		  return res.status(500).json({ message: 'Internal server error' });
 		}
-		return res.status(200).json({ message: 'Login attempt successful' });
+		// Handle successful login
+		return res.status(200).json({ message: 'Login attempt successful', isAuthenticated: true });
 	  });
 	})(req, res, next);
   });
+  
   
   
   
@@ -182,13 +177,14 @@ app.post('/login', (req, res, next) => {
 	res.json(combinedResponse);
   });
   
-
-app.get('/logout', function (req, res) {
-	req.logout();
-	res.redirect('/');
-});
+  
 	
-
+app.post('/logout', function(req, res, next) {
+	req.logout(function(err) {
+	  if (err) { return next(err); }
+	  res.send({ message: 'Logged out successfully' });
+	});
+  });
 
 app.listen(port, () => {
 	console.log(`Listening on port ${port}`);
