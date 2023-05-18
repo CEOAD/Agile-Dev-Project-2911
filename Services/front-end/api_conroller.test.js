@@ -1,6 +1,5 @@
 const nock = require('nock');
 const ApiController = require('./api_controller.js');
-const axios = require('axios');
 // Mock Google Maps services
 global.google = {
     maps: {
@@ -24,7 +23,7 @@ global.google = {
         }
     }
 };
-
+// Mock axios
 describe('ApiController', () => {
     afterEach(() => {
         nock.cleanAll();
@@ -54,7 +53,6 @@ describe('ApiController', () => {
         const result = await ApiController.getAQI(lat, lng);
         expect(result).toBe(42);
     });
-
     test('getWeather', async () => {
         const lat = 40.7128;
         const lng = -74.0060;
@@ -83,7 +81,6 @@ describe('ApiController', () => {
         expect(result.weather[0].main).toBe('Thunderstorm');
         expect(result.main.temp).toBe(28.55);
     });
-
     test('getNearbyCities', async () => {
         const lat = 40.7128;
         const lng = -74.0060;

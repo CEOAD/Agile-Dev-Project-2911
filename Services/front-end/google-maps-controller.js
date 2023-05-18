@@ -159,7 +159,6 @@ class GoogleMapsController {
             }
         });
     }
-
     onMapClicked(event) {
         const clickedPosition = event.latLng;
         this.infoWindows.marker?.close();
@@ -202,7 +201,7 @@ class GoogleMapsController {
         this.infoWindows.marker = null;
         this.infoWindows.cityMarkers.splice(0, this.infoWindows.cityMarkers.length);
 
-        this.setupMarkerAndMarkerInfoWindow(this.marker).then(infoWindow => {
+        this.setupMarkerAndMarkerInfoWindow(this.marker, true).then(infoWindow => {
             this.infoWindows.marker = infoWindow;
         });
 
@@ -233,14 +232,76 @@ class GoogleMapsController {
                 },
             });
             this.cityMarkers.push(cityMarker);
-            this.setupMarkerAndMarkerInfoWindow(cityMarker).then(infoWindow => {
+            this.setupMarkerAndMarkerInfoWindow(cityMarker, false).then(infoWindow => {
                 this.infoWindows.cityMarkers.push(infoWindow);
-            })
+            });
         }
 
     }
+    async futureForecastWindow(marker) {
+        console.log("future forecast window")
+        const markerPosition = marker.getPosition();
+        const futureForecast = await ApiController.getFutureForecast(markerPosition.lat(), markerPosition.lng());
+        const futureForecastWindow = await this.createFutureForecastWindow(futureForecast);
+        this.futureForecastInfoWindow = futureForecastWindow;
+        this.futureForecastInfoWindow.open(this.map, marker);
 
-    async setupMarkerAndMarkerInfoWindow(marker) {
+    }
+
+    async createFutureForecastWindow(futureForecast) {
+        const futureForecastCard = await this.createFutureForecastCard(futureForecast);
+        const futureForecastWindow = new google.maps.InfoWindow({
+            content: futureForecastCard.outerHTML,
+        });
+        return futureForecastWindow;
+    }
+
+    async createFutureForecastCard(futureForecast) {
+        const futureForecastCard = document.createElement("div");
+        futureForecastCard.classList.add("future-forecast-card");
+
+        const forecastContent = `
+    <div class="future-forecast-card-content">
+      <div class="future-forecast-card-header">
+        <h3>Future Forecast</h3>
+      </div>
+      <div class="future-forecast-card-body">
+        <div class="future-forecast-card-body-content">
+          <div class="future-forecast-card-body-content-row1">
+            ${this.createDayForecast(futureForecast.tomorrow)}
+            ${this.createDayForecast(futureForecast.dayAfterTomorrow)}
+          </div>
+          <div class="future-forecast-card-body-content-row2">
+            ${this.createDayForecast(futureForecast.dayAfterDayAfterTomorrow)}
+            ${this.createDayForecast(futureForecast.dayAfterDayAfterDayAfterTomorrow)}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+        futureForecastCard.innerHTML = forecastContent;
+        return futureForecastCard;
+    }
+
+    createDayForecast(dayForecast) {
+        const { weatherIconUrl, weatherDescription, minTemperature, maxTemperature } = dayForecast;
+        return `
+    <div class="future-forecast-card-body-content-row-item">
+      <h3 class="day-headers">${dayForecast.day}</h3>
+      <div class="future-forecast-card-body-content-row-item-weather">
+        <img class="future-forecast-weather-icon" src="${weatherIconUrl}" alt="weather-icon">
+        <p>${weatherDescription}</p>
+      </div>
+      <div class="future-forecast-card-body-content-row-item-temperature">
+        <p>Min: ${minTemperature}°C</p>
+        <p>Max: ${maxTemperature}°C</p>
+      </div>
+    </div>
+  `;
+    }
+
+    async setupMarkerAndMarkerInfoWindow(marker, isMainMarker = false) {
         const markerPosition = marker.getPosition();
 
         const markerInfoWindowContent = this.createMarkerInfoWindowCard(
@@ -258,10 +319,14 @@ class GoogleMapsController {
             const upperCard = content.querySelector('.upper-card');
             const lowerCard = content.querySelector('.lower-card');
             const card = content.querySelector('.center-card');
+            const futureForecastButton = content.querySelector('.future-forecast');
             card.addEventListener('mouseenter', () => {
                 upperCard.classList.add('show');
                 lowerCard.classList.add('show');
                 card.classList.add('hovering');
+            });
+            futureForecastButton.addEventListener('click', () => {
+                this.futureForecastWindow(marker);
             });
             content.addEventListener('mouseleave', () => {
                 upperCard.classList.remove('show');
@@ -338,6 +403,8 @@ class GoogleMapsController {
         }
 
         // Create elements
+        const futureForecastContainer = document.createElement('div');
+        const futureForecast = document.createElement('button');
         const cardContainer = document.createElement('div');
         const upperCard = document.createElement('div');
         const upperCardSection1 = document.createElement('div');
@@ -368,6 +435,8 @@ class GoogleMapsController {
         const aqiResultText = document.createElement('p');
 
         // Set class names
+        futureForecastContainer.classList.add('future-forecast-container');
+        futureForecast.classList.add('future-forecast');
         cardContainer.classList.add('card-container');
         upperCard.classList.add('upper-card');
         upperCardSection1.classList.add('upper-card-section');
@@ -401,6 +470,7 @@ class GoogleMapsController {
         cardContainer.id = Utils.createUUID();
         mainIconImg.src = ApiController.getWeatherIconURL(mainWeatherIconCode);
         mainIconImg.alt = "Main Icon";
+        futureForecast.id = "future-forecast2";
 
         // Set element content
         windText.textContent = 'Wind:';
@@ -416,6 +486,7 @@ class GoogleMapsController {
         realFeelText.textContent = 'Real Feel:';
         realFeelValueText.textContent = `${mainRealFeel} °C`;
         aqiResultText.textContent = aqiResult.text;
+        futureForecast.textContent = 'Future Forecast';
 
         // Append elements
         cardContainer.appendChild(upperCard);
@@ -432,6 +503,8 @@ class GoogleMapsController {
         cardContainer.appendChild(centerSection);
         centerSection.appendChild(mainIconImg);
         centerSection.appendChild(infoColumn3);
+        centerSection.appendChild(futureForecastContainer);
+        futureForecastContainer.appendChild(futureForecast);
         infoColumn3.appendChild(temperatureText);
         infoColumn3.appendChild(countryCityText);
         cardContainer.appendChild(lowerCard);
@@ -450,7 +523,6 @@ class GoogleMapsController {
         lowerCardSection3.appendChild(realFeelValueText);
         lowerCard.appendChild(lowerCardFooter);
         lowerCardFooter.appendChild(aqiResultText);
-
         return cardContainer;
     }
 
