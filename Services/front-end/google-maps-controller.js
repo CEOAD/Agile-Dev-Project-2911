@@ -1,9 +1,11 @@
 import SVGs from "./svgs.js";
 import ApiController from "./api_controller.js";
 import Utils from './utils.js';
+import { favs, delBtn, addFav, cityArray } from '../../Pages/homepage/favourites.js';
+
 
 /**
- * Houses the logic for manipulating the Google Maps insterface.
+ * Houses the logic for manipulating the Google Maps interface.
  */
 class GoogleMapsController {
     static GoogleApiKey = 'AIzaSyAtfYF62HC9UTwaSZOk4TUbPWOPmgHQfmE';
@@ -105,6 +107,7 @@ class GoogleMapsController {
             },
         ];
     }
+
     async initMap() {
         const userLocation = (await this.getUserCurrentLocation());
         const initialMarkerPosition = userLocation ?? {lat: 0, lng: 0};
@@ -119,6 +122,10 @@ class GoogleMapsController {
             draggable: true,
             position: initialMarkerPosition,
         });
+        // Favourites Dropdown
+        favs.addEventListener("click", () => { addFav(event, this.marker) });
+        favs.addEventListener("click", () => { this.areaSelector(event, this.map, this.marker) });
+        favs.addEventListener("click", () => { delBtn(event) });
 
         this.marker.addListener("dragend", () => this.updateMarkers(true).then());
 
@@ -212,7 +219,6 @@ class GoogleMapsController {
 
         if (!withNearbyCities)
             return;
-
 
 
         const markerPosition = this.marker.getPosition();
@@ -524,6 +530,20 @@ class GoogleMapsController {
         lowerCard.appendChild(lowerCardFooter);
         lowerCardFooter.appendChild(aqiResultText);
         return cardContainer;
+    }
+
+
+    areaSelector(event, map, marker) {
+        for (let city of cityArray) {
+            if (event.target.textContent.includes(city["city"])) {
+                let coordinate = city["coord"];
+                map.setCenter(coordinate);
+                map.setZoom(8);
+                marker.setPosition(coordinate);
+                this.updateMarkers(true).then();
+            }
+        }
+
     }
 
 }
