@@ -11,6 +11,8 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <link rel="stylesheet" type="text/css" href="index.css"/>
     <link rel="stylesheet" href="search_bar.css" />
+    <link rel="stylesheet" href="Legend/Legend.css"/>
+    <script src="Legend/Legend.js" defer></script>
 </head>
 <body>
 <header class="site-header">
@@ -71,6 +73,51 @@
     </div>
 </header>
 <!-- Header End -->
+<aside class="aside_legend">
+    <button class="nav__toggle legend_button" aria-expanded="false" type="button">
+        Legend
+    </button>
+    <div id="legend_wrapper" class="hidden_legend">
+        <ol class="legend">
+            <li>
+                <img src="https://openweathermap.org/img/wn/01d@2x.png" alt="Clear sky">
+                <p>Clear Sky</p>
+            </li>
+            <li>
+                <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="Few clouds">
+                <p>Few Clouds</p>
+            </li>
+            <li>
+                <img src="https://openweathermap.org/img/wn/03d@2x.png" alt="Scattered clouds">
+                <p>Scattered clouds</p>
+            </li>
+            <li>
+                <img src="https://openweathermap.org/img/wn/04d@2x.png" alt="Broken clouds">
+                <p>Broken Clouds</p>
+            </li>
+            <li>
+                <img src="https://openweathermap.org/img/wn/09d@2x.png" alt="Shower rain">
+                <p>Shower Rain</p>
+            </li>
+            <li>
+                <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="Rain">
+                <p>Rain</p>
+            </li>
+            <li>
+                <img src="https://openweathermap.org/img/wn/11d@2x.png" alt="Thunderstorm">
+                <p>Thunderstorm</p>
+            </li>
+            <li>
+                <img src="https://openweathermap.org/img/wn/13d@2x.png" alt="Snow">
+                <p>Thunderstorm</p>
+            </li>
+            <li>
+                <img src="https://openweathermap.org/img/wn/50d@2x.png" alt="Mist">
+                <p>Mist</p>
+            </li>
+        </ol>
+    </div>
+</aside>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtfYF62HC9UTwaSZOk4TUbPWOPmgHQfmE&libraries=places&callback=autocomplete"></script>
 <script type="module" src="../homepage/homepage.js"></script>
 <div id="map"></div>
