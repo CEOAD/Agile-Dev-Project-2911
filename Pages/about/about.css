@@ -160,11 +160,6 @@ html, body {
   overflow-x:hidden;
   height: 50%;
   padding-bottom: 10%;
-  --n: 1;
-  --i: 0;
-  --tx: 0;
-  width: calc(var(--n)*100%);
-  transform: translate(calc(var(--i, 0)/var(--n)*-100% + var(--tx, 0px)))
 }
 
 .profile_container {
@@ -244,4 +239,61 @@ img {
   width:500px;
   background: #51a7ff;
   border-radius: 69% 31% 63% 37% / 49% 53% 47% 51%;
+}
+
+/* carousel button stuff */
+.carousel {
+  --current-slide: 0;
+  /* we set position relative so absolute position works properly for the buttons */
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-button {
+  /* vertically centering the buttons */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+
+  /* basic styling */
+  padding: 0;
+  margin: 0.5rem;
+  border-radius: 50%;
+  background-color: transparent;
+  border: none;
+
+  font-size: 1.5rem;
+  cursor: pointer;
+
+  transition: color 0.1s;
+}
+
+.carousel-button:hover {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.carousel-button_next {
+  /* The "next slide button" will be at the right */
+  right: 0;
+}
+
+.slides {
+  display: flex;
+  transition: transform 0.5s;
+  transform: translateX(calc(-100% * var(--current-slide)));
+  padding-bottom: 10%;
+}
+
+.slide {
+  display: flex;
+  justify-content: space-around;
+  flex: 0 0 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .carousel-button {
+    font-size: 2rem;
+    margin: 1rem;
+  }
 }
