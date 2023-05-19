@@ -1,0 +1,33 @@
+.legend_wrapper {
+    position: fixed;
+    color: white;
+    background-color: #192d59;
+    width: fit-content;
+    height: 200px;
+    overflow-y: scroll;
+    border-radius: 10%;
+    bottom: 70px;
+    right: 10px;
+    z-index: 5;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.legend_wrapper::-webkit-scrollbar {
+    display:none;
+}
+
+.legend_hidden {
+    display:none;
+}
+
+.legend > li {
+    display: flex;
+    align-items:center;
+}
+
+.legend_button {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 5;
+}
