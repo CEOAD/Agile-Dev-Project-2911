@@ -1,4 +1,4 @@
-.legend_wrapper {
+#legend_wrapper {
     position: fixed;
     color: white;
     background-color: #192d59;
@@ -12,11 +12,7 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
-.legend_wrapper::-webkit-scrollbar {
-    display:none;
-}
-
-.legend_hidden {
+#legend_wrapper::-webkit-scrollbar {
     display:none;
 }
 
@@ -30,4 +26,27 @@
     bottom: 10px;
     right: 10px;
     z-index: 5;
+}
+
+.hidden_legend {
+    display: none;
+}
+
+#legend_wrapper.open_legend {
+    animation: open 0.5s forwards;
+}
+
+#legend_wrapper.close_legend {
+    animation: close 0.5s forwards
+}
+
+@keyframes open {
+    0% {
+        transform: translate(50%, 50%) scale(0)
+    }
+}
+@keyframes close {
+    100% {
+        transform: translate(50%, 50%) scale(0);
+    }
 }
