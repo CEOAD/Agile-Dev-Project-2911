@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../stylesheet/style.css">
     <link rel="stylesheet" href="about.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+          integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="../../Services/front-end/aboutScript.js" defer></script>
     <title>About</title>
 </head>
@@ -26,89 +29,136 @@
             <h1 class="return__to__main">
                 myWeather
             </h1>
-            <button class="nav__toggle" aria-expanded="false" type="button">
-                sign in
-            </button>
+            <!-- Log-in and Sign-up Button below-->
+            <a href="#" class="button button--icon" aria-label="Sign up">
+                <button class="nav__toggle">Log in</button>
+                <svg
+                        version="1.1"
+                        viewBox="0 0 100 100"
+                        xmlns="http://www.w3.org/2000/svg"
+                >
+                    <g>
+                        <path
+                                d="m83.898 77.398c-2.3984-13-13.699-22.5-26.898-22.5h-13.699c-13.5 0-24.898 9.8008-27.102 23.102-1.1016 6.6992 4.1016 12.699 10.801 12.699h46.199c6.8008 0 12-6.1992 10.801-12.898z"
+                        />
+                        <path
+                                d="m36.102 44.199c7.8008 7.8008 20.398 8 28.398 0.39844l0.19922-0.19922c6.8984-6.6016 7.6016-17.301 1.5-24.699-8.3008-10-23.699-9.8008-31.699 0.39844-5.6016 7.1992-5 17.5 1.5 24z"
+                        />
+                    </g>
+                </svg>
+                <button class="nav__toggle sign__up"> Sign Up</button>
+            </a>
+            <!-- Log-in and Sign-up Button above-->
         </div>
     </header>
 <!-- header/nav end -->
     <main>
-        <div class="main">
-            <div class="about card">
-                <h1>
-                    About us
+        <div class="welcome_wrapper">
+            <div>
+                <h1 class="welcome">
+                    Welcome to <span class="app_highlight">myWeather</span>
                 </h1>
-                <p>
-                    Welcome to WeatherWare, your ultimate destination for all things weather! We at Weather Mavricks are a
-                    dedicated team of
-                    developers, and designers who have come together to create a user-friendly and informative
-                    weather application that caters to the needs of individuals and businesses around the globe.
+                <p class="welcome">
+                    Weather Mavericks
                 </p>
             </div>
-            <div class="purpose card">
-                <h2>
-                    Purpose
-                </h2>
-                <p>
-                    The purpose of WeatherWare is to provide users with up-to-date weather information for any location they
-                    choose. 
-                </p>
+            <div class="logo_wrapper1">
+                <div class="logo_wrapper2">
+                    <img class="logo" src="../../img/Logo.png" alt="weather logo">
+                </div>
             </div>
-            <div class="team card">
-                <h3>
-                    Our Team - Weather Mavericks
-                </h3>
-                <ul class="people">
-                    <div>
-                        <img class="profile" src="../../img/male1.jpeg" alt="profile of man1" />
-                        <li>
-                            Amin Davari
-                        </li>
+        </div>
+        <div class="background">
+            <div class="main">
+                <div class="card">
+                    <div class="about">
+                        <h1 class="title">
+                            About us
+                        </h1>
+                        <p>
+                            Welcome to myWeather, your ultimate destination for all things weather! We at Weather Mavericks are a
+                            dedicated team of
+                            developers, and designers who have come together to create a user-friendly and informative
+                            weather application that caters to the needs of individuals and businesses around the globe.
+                        </p>
                     </div>
-                    <div>
-                        <img class="profile" src="../../img/male2.jpeg" alt="profile of man2" />
-                        <li>
-                            Boyden Zhou
-                        </li>
+                    <div class="purpose">
+                        <h2 class="title">
+                            Purpose
+                        </h2>
+                        <p>
+                            The purpose of myWeather is to provide users with up-to-date weather information for any location they
+                            choose.
+                        </p>
                     </div>
+                </div>
+                <div class="carousel" data-carousel>
                     <div>
-                        <img class="profile" src="../../img/female1.jpeg" alt="profile of female1" />
-                        <li>
-                            Deborah Lao
-                        </li>
+                        <div class="carousel-buttons">
+                            <button class="carousel-button carousel-button_previous" data-carousel-button-previous>
+                                <span class="fas fa-chevron-circle-left"></span>
+                            </button>
+                            <button class="carousel-button carousel-button_next" data-carousel-button-next>
+                                <span class="fas fa-chevron-circle-right"></span>
+                            </button>
+                        </div>
+                        <div class="slides" data-carousel-slides-container>
+                            <div class="slide">
+                                <div class="profile_container">
+                                    <img class="profile" src="../../img/male1.jpeg" alt="profile of man1" />
+                                    <p>
+                                        Amin Davari
+                                    </p>
+                                </div>
+                                <div class="profile_container">
+                                    <img class="profile" src="../../img/male2.jpeg" alt="profile of man2" />
+                                    <p>
+                                        Boyden Zhou
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="slide">
+                                <div class="profile_container">
+                                    <img class="profile" src="../../img/female1.jpeg" alt="profile of female1" />
+                                    <p>
+                                        Deborah Lao
+                                    </p>
+                                </div>
+                                <div class="profile_container">
+                                    <img class="profile" src="../../img/female2.jpeg" alt="profile of female2" />
+                                    <p>
+                                        Melody Nunmawi
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="slide">
+                                <div class="profile_container">
+                                    <img class="profile" src="../../img/male3.jpeg" alt="profile of man3" />
+                                    <p>
+                                        Patrick Quach
+                                    </p>
+                                </div>
+                                <div class="profile_container">
+                                    <img class="profile" src="../../img/male4.jpeg" alt="profile of man4" />
+                                    <p>
+                                        Surafele Asfaw
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <img class="profile" src="../../img/female2.jpeg" alt="profile of female2" />
-                        <li>
-                            Melody Nunmawi
-                        </li>
-                    </div>
-                    <div>
-                        <img class="profile" src="../../img/male3.jpeg" alt="profile of man3" />
-                        <li>
-                            Patrick Quach
-                        </li>
-                    </div>
-                    <div>
-                        <img class="profile" src="../../img/male4.jpeg" alt="profile of man4" />
-                        <li>
-                            Surafele Asfaw
-                        </li>
-                    </div>
-                </ul>
+                </div>
             </div>
         </div>
     </main>
 <!-- End of main content -->
     <footer class="site-footer">
         <div class="contact-wrapper">
-            <h4>
-                Contact Information
+            <h4 class ="title contact_title">
+                Contact us
             </h4>
             <div class="wrapper site-footer__wrapper">
-                <h5>
-                    Email
-                </h5>
+                <img class="email" src="../../img/email.png" alt="email logo" />
                 <ul class="contact">
                     <li>
                         WeatherMavricks@bcit.ca
@@ -117,9 +167,7 @@
                         WeatherWare@weather.com
                     </li>
                 </ul>
-                <h5>
-                    Phone Number
-                </h5>
+                <img class="phone" src="../../img/phone.png" alt="phone logo" />
                 <ul class="contact">
                     <li>
                         604-555-5555
